@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Rennick — Robotics &amp; Mechanical Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F12;
+    --bg-panel:#0F151A;
+    --grid-line:#182229;
+    --border:#2A3944;
+    --accent:#4FA3D1;
+    --accent-dim:#2E5A73;
+    --caution:#E8A33D;
+    --text:#E4E9ED;
+    --text-muted:#7A8A96;
+    --text-dim:#4C5A64;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--accent-dim); color:#fff;}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,15,18,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .nav-mark{
+    font-family:var(--mono); font-weight:700; font-size:14px;
+    letter-spacing:0.06em; color:var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-mark .dot{width:7px; height:7px; background:var(--caution); flex-shrink:0;}
+  .nav-links{display:flex; gap:28px; list-style:none;}
+  .nav-links a{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.08em;
+    text-transform:uppercase; text-decoration:none; color:var(--text-muted);
+    transition:color 0.15s ease;
+  }
+  .nav-links a:hover{color:var(--accent);}
+  @media (max-width:640px){ .nav-links{gap:16px;} .nav-links a{font-size:10px;} }
+
+  /* ---------- HERO / TITLE BLOCK ---------- */
+  header.hero{
+    padding:96px 0 0;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--accent);
+    display:flex; align-items:center; gap:10px; margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:''; width:24px; height:1px; background:var(--accent);
+  }
+  h1.title{
+    font-family:var(--mono); font-weight:800;
+    font-size:clamp(36px, 7vw, 68px);
+    line-height:1.04; letter-spacing:-0.01em;
+    max-width:900px;
+  }
+  h1.title .line2{color:var(--text-muted); font-weight:500;}
+  .hero-desc{
+    max-width:560px; margin-top:28px;
+    font-size:17px; color:var(--text-muted);
+  }
+  .hero-desc strong{color:var(--text); font-weight:600;}
+
+  /* title block — mimics a real drawing title block */
+  .title-block{
+    margin-top:56px;
+    border:1px solid var(--border);
+    border-bottom:none;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+  }
+  .tb-cell{
+    padding:14px 18px;
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .tb-cell:last-child{border-right:none;}
+  .tb-label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--text-dim); margin-bottom:6px;
+  }
+  .tb-value{
+    font-family:var(--mono); font-size:14px; color:var(--text); font-weight:500;
+  }
+  @media (max-width:720px){
+    .title-block{grid-template-columns:repeat(2, 1fr);}
+  }
+
+  /* ---------- DIMENSION DIVIDER ---------- */
+  .dim-divider{
+    display:flex; align-items:center; gap:14px;
+    margin:0 0 48px; padding-top:88px;
+  }
+  .dim-divider .tick{width:1px; height:14px; background:var(--border);}
+  .dim-divider .rule{flex:1; height:1px; background:var(--border); position:relative;}
+  .dim-divider .rule::before, .dim-divider .rule::after{
+    content:''; position:absolute; top:-3px; width:1px; height:7px; background:var(--border);
+  }
+  .dim-divider .rule::before{left:0;}
+  .dim-divider .rule::after{right:0;}
+  .dim-label{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--text-dim); white-space:nowrap;
+  }
+  .dim-label b{color:var(--accent); font-weight:600;}
+
+  section{padding:0 0 8px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px;
+    padding-bottom:24px;
+  }
+  .about-grid p{color:var(--text-muted); font-size:15.5px; margin-bottom:16px;}
+  .about-grid p strong{color:var(--text); font-weight:600;}
+  .stat-list{display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border);}
+  .stat-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:16px 0; border-bottom:1px solid var(--border);
+  }
+  .stat-row .k{font-family:var(--mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em;}
+  .stat-row .v{font-family:var(--mono); font-size:20px; color:var(--accent); font-weight:700;}
+  @media (max-width:800px){ .about-grid{grid-template-columns:1fr; gap:32px;} }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-list{display:flex; flex-direction:column; gap:20px; padding-bottom:24px;}
+  .proj-card{
+    border:1px solid var(--border);
+    background:var(--bg-panel);
+    padding:0;
+    transition:border-color 0.2s ease;
+  }
+  .proj-card:hover{border-color:var(--accent-dim);}
+  .proj-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:24px; padding:26px 26px 20px; border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .proj-num{
+    font-family:var(--mono); font-size:12px; color:var(--text-dim);
+  }
+  .proj-name{
+    font-family:var(--mono); font-size:20px; font-weight:700; color:var(--text);
+    margin-top:6px;
+  }
+  .proj-tag{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--caution); border:1px solid var(--caution); padding:4px 9px;
+    align-self:flex-start; white-space:nowrap;
+  }
+  .proj-body{padding:22px 26px 26px; display:grid; grid-template-columns:1.4fr 1fr; gap:32px;}
+  .proj-body p{color:var(--text-muted); font-size:14.5px;}
+  .spec-table{display:flex; flex-direction:column; gap:0;}
+  .spec-row{
+    display:flex; justify-content:space-between; padding:9px 0;
+    border-bottom:1px solid var(--grid-line); font-family:var(--mono); font-size:12.5px;
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em;}
+  .spec-row .v{color:var(--text);}
+  .proj-links{margin-top:16px; display:flex; gap:16px;}
+  .proj-links a{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.05em; text-transform:uppercase;
+    text-decoration:none; color:var(--accent); border-bottom:1px solid var(--accent-dim);
+    padding-bottom:2px; transition:opacity 0.15s ease;
+  }
+  .proj-links a:hover{opacity:0.7;}
+  @media (max-width:720px){ .proj-body{grid-template-columns:1fr;} }
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border);
+    margin-bottom:24px;
+  }
+  .skill-cat{background:var(--bg-panel); padding:22px 20px;}
+  .skill-cat h3{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px;
+  }
+  .skill-cat ul{list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .skill-cat li{font-size:13.5px; color:var(--text-muted);}
+  @media (max-width:860px){ .skill-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:480px){ .skill-grid{grid-template-columns:1fr;} }
+
+  /* ---------- CONTACT / FOOTER TITLE BLOCK ---------- */
+  footer{padding:96px 0 48px;}
+  .contact-box{
+    border:1px solid var(--border); padding:48px 40px;
+    display:flex; justify-content:space-between; align-items:flex-end; gap:32px;
+    flex-wrap:wrap;
+  }
+  .contact-box h2{
+    font-family:var(--mono); font-size:clamp(24px,4vw,34px); font-weight:800;
+    max-width:480px; line-height:1.15;
+  }
+  .contact-links{display:flex; flex-direction:column; gap:10px;}
+  .contact-links a{
+    font-family:var(--mono); font-size:13px; text-decoration:none;
+    color:var(--text-muted); display:flex; align-items:center; gap:8px;
+  }
+  .contact-links a:hover{color:var(--accent);}
+  .contact-links a::before{content:'→'; color:var(--accent);}
+  .foot-meta{
+    margin-top:28px; padding-top:20px; border-top:1px solid var(--grid-line);
+    display:flex; justify-content:space-between; font-family:var(--mono);
+    font-size:11px; color:var(--text-dim); letter-spacing:0.05em; flex-wrap:wrap; gap:8px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-mark"><span class="dot"></span>A.RENNICK / REV.03</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Systems</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Mechanical &amp; Systems Design</p>
+    <h1 class="title">Alex Rennick<br><span class="line2">Robotics Engineer</span></h1>
+    <p class="hero-desc">
+      I design and build <strong>autonomous mechanical systems</strong> — from
+      structural and drivetrain design through controls integration and flight
+      test. Recent focus: <strong>UAV airframes</strong> and
+      <strong>terrain-adaptive locomotion</strong>.
+    </p>
+
+    <!-- EDIT ME: swap these four cells for your own info -->
+    <div class="title-block">
+      <div class="tb-cell">
+        <div class="tb-label">Based in</div>
+        <div class="tb-value">Waterloo, ON</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Focus</div>
+        <div class="tb-value">Robotics / UAV</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Status</div>
+        <div class="tb-value">Open to work</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Sheet</div>
+        <div class="tb-value">01 of 01</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="dim-divider">
+      <span class="tick"></span><span class="rule"></span>
+      <span class="dim-label"><b>01</b> — Overview</span>
+      <span class="rule"></span><span class="tick"></span>
+    </div>
+
+    <div class="about-grid">
+      <div>
+        <!-- EDIT ME: your background/story -->
+        <p>
+          I'm a mechanical engineer working at the intersection of
+          <strong>structural design and robotics</strong>. My background is in
+          CAD-driven mechanical development — I design load-bearing structures,
+          drivetrains, and mounting systems in SolidWorks and Fusion 360, then
+          carry them through FEA, prototyping, and physical test.
+        </p>
+        <p>
+          Most of my recent work has centered on <strong>unmanned aerial
+          systems</strong>: airframe design, propulsion sizing, and the
+          mechanical/electrical integration that makes a platform flight-ready.
+          I also spend time on ground robotics — suspension geometry, gear
+          trains, and actuator selection for legged and wheeled platforms.
+        </p>
+        <p>
+          I like projects that force a trade-off between weight, strength, and
+          manufacturability — and I like being in the shop as much as I like
+          being in the CAD file.
+        </p>
+      </div>
+
+      <div class="stat-list">
+        <!-- EDIT ME: your own numbers -->
+        <div class="stat-row"><span class="k">Platforms built</span><span class="v">12</span></div>
+        <div class="stat-row"><span class="k">Flight hours logged</span><span class="v">140+</span></div>
+        <div class="stat-row"><span class="k">Years in robotics</span><span class="v">6</span></div>
+        <div class="stat-row"><span class="k">CAD models shipped</span><span class="v">300+</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="dim-divider">
+      <span class="tick"></span><span class="rule"></span>
+      <span class="dim-label"><b>02</b> — Selected Projects</span>
+      <span class="rule"></span><span class="tick"></span>
+    </div>
+
+    <div class="proj-list">
+
+      <!-- EDIT ME: PROJECT 1 -->
+      <article class="proj-card">
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—001</div>
+            <div class="proj-name">Autonomous Quadrotor Platform</div>
+          </div>
+          <span class="proj-tag">UAV / Flight-tested</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Ground-up carbon-fiber quadrotor airframe designed for payload
+            delivery in constrained environments. Owned structural design,
+            propulsion sizing, and mechanical integration of flight controller,
+            ESCs, and companion computer. Iterated through three airframe
+            revisions to cut structural weight by 22% while holding stiffness
+            targets under FEA.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">Frame</span><span class="v">480mm, carbon fiber</span></div>
+            <div class="spec-row"><span class="k">MTOW</span><span class="v">2.1 kg</span></div>
+            <div class="spec-row"><span class="k">Payload</span><span class="v">600 g</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">SolidWorks, ANSYS</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <a href="#">CAD files</a>
+        </div>
+      </article>
+
+      <!-- EDIT ME: PROJECT 2 -->
+      <article class="proj-card">
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—002</div>
+            <div class="proj-name">Terrain-Adaptive Rover Suspension</div>
+          </div>
+          <span class="proj-tag">Ground robotics</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Independent rocker-bogie derived suspension for a 6-wheel research
+            rover, designed to maintain wheel contact across uneven terrain
+            without active control. Full kinematic simulation in MATLAB
+            preceded physical prototyping; final geometry validated on a
+            custom test rig with 15cm obstacle clearance.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">Config</span><span class="v">6-wheel, passive</span></div>
+            <div class="spec-row"><span class="k">Obstacle clearance</span><span class="v">150 mm</span></div>
+            <div class="spec-row"><span class="k">Chassis mass</span><span class="v">4.8 kg</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">Fusion 360, MATLAB</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <a href="#">Demo video</a>
+        </div>
+      </article>
+
+      <!-- EDIT ME: PROJECT 3 -->
+      <article class="proj-card">
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—003</div>
+            <div class="proj-name">6-DOF Robotic Arm</div>
+          </div>
+          <span class="proj-tag">Manipulator</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Desktop-scale robotic arm built to explore custom actuator and
+            gear-train design. Designed planetary gearboxes for each joint,
+            selected and sized BLDC actuators, and built the full mechanical
+            assembly around a target 500g end-effector payload at full
+            extension.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">DOF</span><span class="v">6</span></div>
+            <div class="spec-row"><span class="k">Reach</span><span class="v">420 mm</span></div>
+            <div class="spec-row"><span class="k">Payload</span><span class="v">500 g</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">Onshape, custom gearboxes</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <a href="#">CAD files</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="dim-divider">
+      <span class="tick"></span><span class="rule"></span>
+      <span class="dim-label"><b>03</b> — Tools &amp; Systems</span>
+      <span class="rule"></span><span class="tick"></span>
+    </div>
+
+    <!-- EDIT ME: your own tool/skill lists -->
+    <div class="skill-grid">
+      <div class="skill-cat">
+        <h3>CAD / Design</h3>
+        <ul>
+          <li>SolidWorks</li>
+          <li>Fusion 360</li>
+          <li>Onshape</li>
+          <li>GD&amp;T</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Analysis</h3>
+        <ul>
+          <li>ANSYS FEA</li>
+          <li>MATLAB / Simulink</li>
+          <li>Kinematics &amp; dynamics</li>
+          <li>Tolerance stacks</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Fabrication</h3>
+        <ul>
+          <li>CNC machining</li>
+          <li>Composite layup</li>
+          <li>3D printing (FDM/SLA)</li>
+          <li>Sheet metal</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Electrical / Software</h3>
+        <ul>
+          <li>PX4 / ArduPilot</li>
+          <li>ROS 2</li>
+          <li>Python, C++</li>
+          <li>KiCad</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="dim-divider">
+      <span class="tick"></span><span class="rule"></span>
+      <span class="dim-label"><b>04</b> — Contact</span>
+      <span class="rule"></span><span class="tick"></span>
+    </div>
+
+    <div class="contact-box">
+      <h2>Building something mechanical? Let's talk.</h2>
+      <!-- EDIT ME: your real contact info -->
+      <div class="contact-links">
+        <a href="mailto:alex@example.com">alex@example.com</a>
+        <a href="https://github.com/yourusername">github.com/yourusername</a>
+        <a href="https://linkedin.com/in/yourusername">linkedin.com/in/yourusername</a>
+      </div>
+    </div>
+
+    <div class="foot-meta">
+      <span>© 2026 Alex Rennick</span>
+      <span>Drawn digitally. No scale.</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
