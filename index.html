@@ -90,13 +90,14 @@
       var(--bg);
   }
   .bg-layer{
-    position:absolute; inset:0;
+    position:absolute;
+    top:-12vh; left:0; right:0; bottom:-12vh;
     background-size:cover;
     background-position:center;
     opacity:0;
     filter:brightness(1.1) saturate(1.05) contrast(1.02);
     transition:opacity 1.4s ease;
-    will-change:opacity;
+    will-change:opacity, transform;
   }
   .bg-layer.active{opacity:1;}
   .bg-scrim{
@@ -699,6 +700,35 @@
 
       sections.forEach((el) => observer.observe(el));
     }
+  })();
+
+  // ===========================================================================
+  // Parallax: the background drifts slightly slower than the page scrolls,
+  // instead of staying perfectly still. Movement is capped so the enlarged
+  // background layer (see .bg-layer CSS) never reveals its edges.
+  // ===========================================================================
+  (function () {
+    const layers = document.querySelectorAll('.bg-layer');
+    if (!layers.length) return;
+    let ticking = false;
+
+    function applyParallax() {
+      const bufferPx = window.innerHeight * 0.12;
+      const offset = Math.max(-bufferPx, Math.min(bufferPx, window.scrollY * 0.12));
+      layers.forEach((layer) => {
+        layer.style.transform = `translate3d(0, ${offset}px, 0)`;
+      });
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(applyParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    applyParallax();
   })();
 
   // ===========================================================================
