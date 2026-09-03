@@ -11,14 +11,16 @@
   /* =====================================================================
      HOW TO ADD YOUR OWN PHOTOS / CAD RENDERS / RESUME
      ---------------------------------------------------------------------
-     1) Create an "images" folder next to this index.html file.
-     2) Drop your photos/renders in there, e.g. images/portrait.jpg,
-        images/quadrotor.jpg, images/rover.jpg, images/arm.jpg
-     3) Search this file for "EDIT ME" comments — every image, name,
-        link and background is flagged with one and tells you exactly
-        what to change.
-     4) For your resume, put the PDF in the project folder (e.g.
-        resume.pdf) and update the "Resume" button href near the nav.
+     Current setup: photos are uploaded straight to the repo root (no
+     "images" folder), so paths below are just the filename, e.g.
+     url('drone in air.jpg'). Quotes around the filename mean spaces in
+     the name are fine — you don't need to rename anything.
+     1) Upload more photos/renders the same way, at the repo root.
+     2) Search this file for "EDIT ME" comments — every image, name,
+        link and background still needing a real file is flagged with
+        one and tells you exactly what to change.
+     3) For your resume, upload the PDF to the repo root as resume.pdf
+        (the "Resume" button near the nav already points there).
      ===================================================================== */
 
   :root{
@@ -384,7 +386,7 @@
 
 <div class="wrap">
 
-  <header class="hero" id="hero" data-bg="images/hero-bg.jpg">
+  <header class="hero" id="hero" data-bg="drone in air.jpg">
     <p class="eyebrow">Mechanical &amp; Robotics Engineering</p>
     <h1 class="title">Armaan Jass<br><span class="line2">Mechanical / Robotics Engineer</span></h1>
     <p class="hero-desc">
@@ -454,10 +456,9 @@
       </div>
 
       <div>
-        <!-- EDIT ME: portrait / workshop photo. Add images/portrait.jpg and
-             this frame will show it automatically (see JS at bottom). -->
+        <!-- portrait.jpg is loaded automatically from the repo root (see JS at bottom) -->
         <div class="portrait-frame" id="portraitFrame">
-          <span class="placeholder-note">Add images/portrait.jpg to show your photo here</span>
+          <span class="placeholder-note">Loading portrait.jpg…</span>
         </div>
 
         <div class="stat-list">
@@ -482,9 +483,7 @@
            e.g. images/quadrotor.jpg. Add a CAD file link under proj-links
            (host the file in the repo, e.g. files/quadrotor-cad.zip). -->
       <article class="proj-card">
-        <div class="proj-photo" style="background-image:url('images/quadrotor.jpg');">
-          <span class="placeholder-note">Add images/quadrotor.jpg for this project's photo</span>
-        </div>
+        <div class="proj-photo" style="background-image:url('final concept of drone new motor mounts.jpg');"></div>
         <div class="proj-head">
           <div>
             <div class="proj-num">PRJ—001</div>
@@ -700,7 +699,7 @@
   (function () {
     const frame = document.getElementById('portraitFrame');
     const img = new Image();
-    img.src = 'images/portrait.jpg';
+    img.src = 'portrait.jpg';
     img.alt = 'Armaan Jass';
     img.onload = () => { frame.innerHTML = ''; frame.appendChild(img); };
   })();
