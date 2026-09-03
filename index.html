@@ -95,6 +95,7 @@
     background-position:center;
     opacity:0;
     transform:scale(1.04);
+    filter:brightness(1.55) saturate(1.1) contrast(1.05);
     transition:opacity 1.4s ease, transform 6s ease;
     will-change:opacity, transform;
   }
@@ -254,12 +255,18 @@
   @media (max-width:800px){ .about-grid{grid-template-columns:1fr; gap:32px;} }
 
   /* ---------- PROJECTS ---------- */
-  .proj-list{display:flex; flex-direction:column; gap:22px; padding-bottom:24px;}
+  .proj-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(270px, 1fr));
+    gap:18px;
+    padding-bottom:24px;
+  }
   .proj-card{
     border:1px solid var(--border-soft);
     background:rgba(17,23,28,0.55);
-    border-radius:14px;
+    border-radius:12px;
     overflow:hidden;
+    display:flex; flex-direction:column;
     transition:border-color 0.2s ease, transform 0.2s ease;
   }
   .proj-card:hover{border-color:var(--accent-dim); transform:translateY(-2px);}
@@ -268,52 +275,52 @@
      each .proj-photo below (or swap in an <img> tag) with your own shot,
      e.g. images/quadrotor.jpg, images/rover.jpg, images/arm.jpg */
   .proj-photo{
-    width:100%; aspect-ratio:16/7;
+    width:100%; aspect-ratio:4/3;
     background-size:cover; background-position:center;
     background-color:#0F151A;
     border-bottom:1px solid var(--border-soft);
     display:flex; align-items:flex-end;
   }
   .proj-photo .placeholder-note{
-    font-family:var(--sans); font-size:12.5px; color:var(--text-dim);
-    padding:10px 14px;
+    font-family:var(--sans); font-size:11.5px; color:var(--text-dim);
+    padding:8px 12px;
   }
 
   .proj-head{
     display:flex; justify-content:space-between; align-items:flex-start;
-    gap:24px; padding:24px 26px 18px;
+    gap:14px; padding:18px 20px 12px;
     flex-wrap:wrap;
   }
   .proj-num{
-    font-family:var(--mono); font-size:11.5px; color:var(--text-dim); letter-spacing:0.04em;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:0.04em;
   }
   .proj-name{
-    font-family:var(--display); font-size:21px; font-weight:600; color:var(--text);
-    margin-top:6px;
+    font-family:var(--display); font-size:17px; font-weight:600; color:var(--text);
+    margin-top:5px;
   }
   .proj-tag{
-    font-family:var(--sans); font-size:12px; font-weight:600;
-    color:var(--caution); border:1px solid rgba(232,163,61,0.4); padding:5px 11px; border-radius:20px;
+    font-family:var(--sans); font-size:11px; font-weight:600;
+    color:var(--caution); border:1px solid rgba(232,163,61,0.4); padding:4px 9px; border-radius:20px;
     align-self:flex-start; white-space:nowrap;
   }
-  .proj-body{padding:0 26px 24px; display:grid; grid-template-columns:1.4fr 1fr; gap:32px;}
-  .proj-body p{color:var(--text-muted); font-size:14.5px;}
+  .proj-body{padding:0 20px 18px; display:flex; flex-direction:column; gap:16px;}
+  .proj-body p{color:var(--text-muted); font-size:13.5px;}
   .spec-table{display:flex; flex-direction:column; gap:0;}
   .spec-row{
-    display:flex; justify-content:space-between; padding:9px 0;
-    border-bottom:1px solid var(--border-soft); font-family:var(--mono); font-size:12.5px;
+    display:flex; justify-content:space-between; padding:7px 0;
+    border-bottom:1px solid var(--border-soft); font-family:var(--mono); font-size:11.5px;
   }
   .spec-row:last-child{border-bottom:none;}
   .spec-row .k{color:var(--text-dim);}
   .spec-row .v{color:var(--text);}
-  .proj-links{margin-top:16px; display:flex; gap:18px; flex-wrap:wrap;}
+  .proj-links{margin-top:2px; display:flex; gap:16px; flex-wrap:wrap;}
   .proj-links a{
-    font-family:var(--sans); font-size:13.5px; font-weight:600;
+    font-family:var(--sans); font-size:12.5px; font-weight:600;
     text-decoration:none; color:var(--accent); border-bottom:1px solid var(--accent-dim);
     padding-bottom:2px; transition:opacity 0.15s ease;
   }
   .proj-links a:hover{opacity:0.7;}
-  @media (max-width:720px){ .proj-body{grid-template-columns:1fr;} }
+  @media (max-width:720px){ .proj-list{grid-template-columns:1fr;} }
 
   /* ---------- SKILLS ---------- */
   .skill-grid{
@@ -422,7 +429,7 @@
     </div>
   </header>
 
-  <section id="about" data-bg="images/about-bg.jpg">
+  <section id="about">
     <div class="dim-divider">
       <span class="dim-label">About</span>
       <span class="rule"></span>
@@ -471,7 +478,7 @@
     </div>
   </section>
 
-  <section id="projects" data-bg="images/projects-bg.jpg">
+  <section id="projects" data-bg="final piping system dripline.jpg">
     <div class="dim-divider">
       <span class="dim-label">Selected projects</span>
       <span class="rule"></span>
@@ -507,7 +514,7 @@
             <div class="spec-row"><span class="k">Tools</span><span class="v">SolidWorks, ANSYS</span></div>
           </div>
         </div>
-        <div class="proj-links" style="padding:0 26px 26px;">
+        <div class="proj-links" style="padding:0 20px 20px;">
           <a href="#">Write-up</a>
           <!-- EDIT ME: point this at your actual CAD file/folder -->
           <a href="files/quadrotor-cad.zip">CAD files</a>
@@ -541,7 +548,7 @@
             <div class="spec-row"><span class="k">Tools</span><span class="v">Fusion 360, MATLAB</span></div>
           </div>
         </div>
-        <div class="proj-links" style="padding:0 26px 26px;">
+        <div class="proj-links" style="padding:0 20px 20px;">
           <a href="#">Write-up</a>
           <a href="#">Demo video</a>
         </div>
@@ -574,7 +581,7 @@
             <div class="spec-row"><span class="k">Tools</span><span class="v">Onshape, custom gearboxes</span></div>
           </div>
         </div>
-        <div class="proj-links" style="padding:0 26px 26px;">
+        <div class="proj-links" style="padding:0 20px 20px;">
           <a href="#">Write-up</a>
           <a href="files/arm-cad.zip">CAD files</a>
         </div>
@@ -583,7 +590,7 @@
     </div>
   </section>
 
-  <section id="skills" data-bg="images/skills-bg.jpg">
+  <section id="skills">
     <div class="dim-divider">
       <span class="dim-label">Tools &amp; systems</span>
       <span class="rule"></span>
@@ -629,7 +636,7 @@
     </div>
   </section>
 
-  <footer id="contact" data-bg="images/contact-bg.jpg">
+  <footer id="contact">
     <div class="dim-divider">
       <span class="dim-label">Contact</span>
       <span class="rule"></span>
