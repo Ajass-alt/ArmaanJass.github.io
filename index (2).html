@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armaan Jass — Mechanical / Robotics Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================================
+     HOW TO ADD YOUR OWN PHOTOS / CAD RENDERS / RESUME
+     ---------------------------------------------------------------------
+     Current setup: photos are uploaded straight to the repo root (no
+     "images" folder), so paths below are just the filename, e.g.
+     url('drone in air.jpg'). Quotes around the filename mean spaces in
+     the name are fine — you don't need to rename anything.
+     1) Upload more photos/renders the same way, at the repo root.
+     2) Search this file for "EDIT ME" comments — every image, name,
+        link and background still needing a real file is flagged with
+        one and tells you exactly what to change.
+     3) For your resume, upload the PDF to the repo root as resume.pdf
+        (the "Resume" button near the nav already points there).
+     ===================================================================== */
+
+  :root{
+    --bg:#0B0F12;
+    --bg-panel:#11171C;
+    --border:#26333C;
+    --border-soft:#1A242C;
+    --accent:#5AB0DB;
+    --accent-dim:#2E5A73;
+    --caution:#E8A33D;
+    --text:#E9EDEF;
+    --text-muted:#8B98A3;
+    --text-dim:#57646D;
+
+    --display: 'Space Grotesk', 'Inter', sans-serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;}
+  ::selection{background:var(--accent-dim); color:#fff;}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* =====================================================================
+     SCROLLING BACKGROUND — crossfades between images as you move through
+     sections. Two stacked layers swap opacity so the transition is smooth
+     instead of a hard cut.
+
+     EDIT ME: replace the four URLs below (in the JS at the bottom of the
+     file, under BACKGROUND_IMAGES) with your own photos — a portrait,
+     a workshop/CAD shot, a project photo, etc. Until you add real images
+     this just shows a soft gradient so nothing looks broken.
+     ===================================================================== */
+  .bg-stage{
+    position:fixed; inset:0; z-index:-2; overflow:hidden;
+    background:
+      radial-gradient(ellipse at 20% 0%, #142029 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 100%, #16222A 0%, transparent 55%),
+      var(--bg);
+  }
+  .bg-layer{
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transform:scale(1.04);
+    transition:opacity 1.4s ease, transform 6s ease;
+    will-change:opacity, transform;
+  }
+  .bg-layer.active{opacity:1; transform:scale(1);}
+  .bg-scrim{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(11,15,18,0.94) 0%, rgba(11,15,18,0.86) 40%, rgba(11,15,18,0.94) 100%);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,15,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .nav-mark{
+    font-family:var(--display); font-weight:600; font-size:16px;
+    letter-spacing:-0.01em; color:var(--text);
+    display:flex; align-items:center; gap:9px;
+    text-decoration:none;
+  }
+  .nav-mark .dot{width:7px; height:7px; border-radius:50%; background:var(--caution); flex-shrink:0;}
+  .nav-links{display:flex; align-items:center; gap:32px; list-style:none;}
+  .nav-links a{
+    font-family:var(--sans); font-size:14.5px; font-weight:500;
+    text-decoration:none; color:var(--text-muted);
+    transition:color 0.15s ease;
+  }
+  .nav-links a:hover{color:var(--accent);}
+  .nav-links .btn-resume{
+    color:var(--bg); background:var(--accent);
+    padding:9px 16px; border-radius:6px; font-weight:600;
+    transition:background 0.15s ease, transform 0.15s ease;
+  }
+  .nav-links .btn-resume:hover{background:#79c1e5; transform:translateY(-1px);}
+  @media (max-width:640px){ .nav-links{gap:14px;} .nav-links a{font-size:12.5px;} .nav-links .btn-resume{padding:7px 12px;} }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:110px 0 0;
+    position:relative;
+    scroll-margin-top:68px;
+  }
+  .eyebrow{
+    font-family:var(--sans); font-size:14px; font-weight:600; color:var(--accent);
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:''; width:22px; height:1px; background:var(--accent);
+  }
+  h1.title{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(38px, 6.6vw, 64px);
+    line-height:1.08; letter-spacing:-0.02em;
+    max-width:900px;
+  }
+  h1.title .line2{color:var(--text-muted); font-weight:500;}
+  .hero-desc{
+    max-width:560px; margin-top:26px;
+    font-size:17.5px; color:var(--text-muted);
+  }
+  .hero-desc strong{color:var(--text); font-weight:600;}
+
+  .hero-actions{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--sans); font-size:14.5px; font-weight:600;
+    padding:12px 20px; border-radius:7px; text-decoration:none;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--accent); color:#0B0F12;}
+  .btn-primary:hover{background:#79c1e5; transform:translateY(-1px);}
+  .btn-ghost{border:1px solid var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* title block — a nod to a real drawing title block, kept subtle */
+  .title-block{
+    margin-top:64px;
+    border:1px solid var(--border-soft);
+    border-bottom:none;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    background:rgba(17,23,28,0.55);
+    border-radius:10px 10px 0 0;
+    overflow:hidden;
+  }
+  .tb-cell{
+    padding:16px 20px;
+    border-right:1px solid var(--border-soft);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .tb-cell:last-child{border-right:none;}
+  .tb-label{
+    font-family:var(--sans); font-size:12px; font-weight:500; color:var(--text-dim); margin-bottom:6px;
+  }
+  .tb-value{
+    font-family:var(--sans); font-size:14.5px; color:var(--text); font-weight:600;
+  }
+  @media (max-width:720px){
+    .title-block{grid-template-columns:repeat(2, 1fr); border-radius:10px;}
+  }
+
+  /* ---------- SECTION DIVIDER ---------- */
+  .dim-divider{
+    display:flex; align-items:center; gap:14px;
+    margin:0 0 44px; padding-top:96px;
+  }
+  .dim-divider .rule{flex:1; height:1px; background:var(--border-soft);}
+  .dim-label{
+    font-family:var(--sans); font-size:13px; font-weight:600;
+    color:var(--text-dim); white-space:nowrap;
+  }
+  .dim-label b{color:var(--accent); font-weight:600;}
+
+  section{padding:0 0 8px; scroll-margin-top:84px;}
+
+  h2.section-title{
+    font-family:var(--display); font-weight:600; font-size:clamp(24px,3vw,32px);
+    letter-spacing:-0.01em; margin-bottom:8px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px;
+    padding-bottom:24px;
+  }
+  .about-grid p{color:var(--text-muted); font-size:16px; margin-bottom:18px; max-width:62ch;}
+  .about-grid p strong{color:var(--text); font-weight:600;}
+
+  /* EDIT ME: portrait photo slot — put images/portrait.jpg in your images
+     folder and this will show instead of the placeholder frame. */
+  .portrait-frame{
+    width:100%; aspect-ratio:4/5; border-radius:12px;
+    border:1px solid var(--border); overflow:hidden;
+    background:linear-gradient(155deg, #16222A, #0F151A);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:28px;
+  }
+  .portrait-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .portrait-frame .placeholder-note{
+    font-family:var(--sans); font-size:13px; color:var(--text-dim); text-align:center; padding:24px;
+  }
+
+  .stat-list{display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border-soft);}
+  .stat-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:16px 0; border-bottom:1px solid var(--border-soft);
+  }
+  .stat-row .k{font-family:var(--sans); font-size:13.5px; color:var(--text-dim); font-weight:500;}
+  .stat-row .v{font-family:var(--display); font-size:19px; color:var(--accent); font-weight:600;}
+  @media (max-width:800px){ .about-grid{grid-template-columns:1fr; gap:32px;} }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-list{display:flex; flex-direction:column; gap:22px; padding-bottom:24px;}
+  .proj-card{
+    border:1px solid var(--border-soft);
+    background:rgba(17,23,28,0.55);
+    border-radius:14px;
+    overflow:hidden;
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .proj-card:hover{border-color:var(--accent-dim); transform:translateY(-2px);}
+
+  /* EDIT ME: project photo/render — replace the background-image url on
+     each .proj-photo below (or swap in an <img> tag) with your own shot,
+     e.g. images/quadrotor.jpg, images/rover.jpg, images/arm.jpg */
+  .proj-photo{
+    width:100%; aspect-ratio:16/7;
+    background-size:cover; background-position:center;
+    background-color:#0F151A;
+    border-bottom:1px solid var(--border-soft);
+    display:flex; align-items:flex-end;
+  }
+  .proj-photo .placeholder-note{
+    font-family:var(--sans); font-size:12.5px; color:var(--text-dim);
+    padding:10px 14px;
+  }
+
+  .proj-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:24px; padding:24px 26px 18px;
+    flex-wrap:wrap;
+  }
+  .proj-num{
+    font-family:var(--mono); font-size:11.5px; color:var(--text-dim); letter-spacing:0.04em;
+  }
+  .proj-name{
+    font-family:var(--display); font-size:21px; font-weight:600; color:var(--text);
+    margin-top:6px;
+  }
+  .proj-tag{
+    font-family:var(--sans); font-size:12px; font-weight:600;
+    color:var(--caution); border:1px solid rgba(232,163,61,0.4); padding:5px 11px; border-radius:20px;
+    align-self:flex-start; white-space:nowrap;
+  }
+  .proj-body{padding:0 26px 24px; display:grid; grid-template-columns:1.4fr 1fr; gap:32px;}
+  .proj-body p{color:var(--text-muted); font-size:14.5px;}
+  .spec-table{display:flex; flex-direction:column; gap:0;}
+  .spec-row{
+    display:flex; justify-content:space-between; padding:9px 0;
+    border-bottom:1px solid var(--border-soft); font-family:var(--mono); font-size:12.5px;
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{color:var(--text-dim);}
+  .spec-row .v{color:var(--text);}
+  .proj-links{margin-top:16px; display:flex; gap:18px; flex-wrap:wrap;}
+  .proj-links a{
+    font-family:var(--sans); font-size:13.5px; font-weight:600;
+    text-decoration:none; color:var(--accent); border-bottom:1px solid var(--accent-dim);
+    padding-bottom:2px; transition:opacity 0.15s ease;
+  }
+  .proj-links a:hover{opacity:0.7;}
+  @media (max-width:720px){ .proj-body{grid-template-columns:1fr;} }
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--border-soft); border:1px solid var(--border-soft);
+    border-radius:12px; overflow:hidden;
+    margin-bottom:24px;
+  }
+  .skill-cat{background:rgba(17,23,28,0.6); padding:24px 20px;}
+  .skill-cat h3{
+    font-family:var(--display); font-size:14.5px; font-weight:600;
+    color:var(--accent); margin-bottom:14px;
+  }
+  .skill-cat ul{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .skill-cat li{font-size:14px; color:var(--text-muted);}
+  @media (max-width:860px){ .skill-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:480px){ .skill-grid{grid-template-columns:1fr;} }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{padding:96px 0 48px;}
+  .contact-box{
+    border:1px solid var(--border-soft); padding:52px 44px;
+    border-radius:16px;
+    background:rgba(17,23,28,0.55);
+    display:flex; justify-content:space-between; align-items:flex-end; gap:32px;
+    flex-wrap:wrap;
+  }
+  .contact-box h2{
+    font-family:var(--display); font-size:clamp(24px,4vw,32px); font-weight:600;
+    max-width:480px; line-height:1.2; letter-spacing:-0.01em;
+  }
+  .contact-links{display:flex; flex-direction:column; gap:11px;}
+  .contact-links a{
+    font-family:var(--sans); font-size:14.5px; font-weight:500; text-decoration:none;
+    color:var(--text-muted); display:flex; align-items:center; gap:8px;
+    transition:color 0.15s ease;
+  }
+  .contact-links a:hover{color:var(--accent);}
+  .contact-links a::before{content:'→'; color:var(--accent);}
+  .foot-meta{
+    margin-top:26px; padding-top:20px; border-top:1px solid var(--border-soft);
+    display:flex; justify-content:space-between; font-family:var(--sans);
+    font-size:12.5px; color:var(--text-dim); flex-wrap:wrap; gap:8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Fixed background stage: two layers crossfade as you scroll between sections -->
+<div class="bg-stage" aria-hidden="true">
+  <div class="bg-layer" id="bgLayerA"></div>
+  <div class="bg-layer" id="bgLayerB"></div>
+  <div class="bg-scrim"></div>
+</div>
+
+<nav>
+  <div class="wrap">
+    <!-- EDIT ME: this was mismatched with the hero name before — now fixed -->
+    <a href="#" class="nav-mark"><span class="dot"></span>Armaan Jass</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <!-- EDIT ME: point this at your actual resume file once it's in the project folder -->
+      <li><a href="resume.pdf" class="btn-resume" download>Resume</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero" id="hero" data-bg="drone in air.jpg">
+    <p class="eyebrow">Mechanical &amp; Robotics Engineering</p>
+    <h1 class="title">Armaan Jass<br><span class="line2">Mechanical / Robotics Engineer</span></h1>
+    <p class="hero-desc">
+      I design and build <strong>autonomous mechanical systems</strong> — from
+      structural and drivetrain design through controls integration and testing.
+      Recent focus: <strong>UAV airframes</strong> and
+      <strong>terrain-adaptive locomotion</strong>.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View projects</a>
+      <a href="resume.pdf" class="btn btn-ghost" download>Download resume</a>
+    </div>
+
+    <!-- EDIT ME: swap these four cells for your own info -->
+    <div class="title-block">
+      <div class="tb-cell">
+        <div class="tb-label">Based in</div>
+        <div class="tb-value">Waterloo, ON</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Focus</div>
+        <div class="tb-value">Robotics / UAV</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Status</div>
+        <div class="tb-value">Open to work</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label">Year</div>
+        <div class="tb-value">3rd yr, Mech Eng</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" data-bg="images/about-bg.jpg">
+    <div class="dim-divider">
+      <span class="dim-label">About</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="about-grid">
+      <div>
+        <!-- EDIT ME: your background/story. Typos from the draft are
+             cleaned up below — edit the copy itself freely. -->
+        <p>
+          If I could put into words the feeling I get when I run into a problem
+          I can't solve, I probably wouldn't be an <strong>engineer</strong>.
+          But when the solution finally clicks, it's right up there with
+          bombing a drive down the fairway or scoring a goal in front of the
+          people you love.
+        </p>
+        <p>
+          My recent work has centred on <strong>designing</strong>,
+          <strong>simulating</strong> and <strong>fabricating parts</strong>
+          for drones and cars. Alongside that, I've picked up hands-on
+          experience troubleshooting and installing systems as an irrigation
+          technician — plenty of exposure to real
+          <strong>mechanical, electrical and hydraulic systems</strong> outside
+          of a CAD screen.
+        </p>
+        <p>
+          My interest in engineering traces back to the first time I watched
+          Iron Man — since then I've chased the same loop: learn something,
+          apply it, then go learn more.
+        </p>
+      </div>
+
+      <div>
+        <!-- portrait.jpg is loaded automatically from the repo root (see JS at bottom) -->
+        <div class="portrait-frame" id="portraitFrame">
+          <span class="placeholder-note">Loading portrait.jpg…</span>
+        </div>
+
+        <div class="stat-list">
+          <div class="stat-row"><span class="k">CAD hours logged</span><span class="v">300+</span></div>
+          <div class="stat-row"><span class="k">Current year</span><span class="v">3rd yr, Mech Eng</span></div>
+          <div class="stat-row"><span class="k">Projects completed</span><span class="v">7</span></div>
+          <div class="stat-row"><span class="k">Currently exploring</span><span class="v">Autonomous flight control</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" data-bg="images/projects-bg.jpg">
+    <div class="dim-divider">
+      <span class="dim-label">Selected projects</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="proj-list">
+
+      <!-- EDIT ME: PROJECT 1 — set background-image to your own photo,
+           e.g. images/quadrotor.jpg. Add a CAD file link under proj-links
+           (host the file in the repo, e.g. files/quadrotor-cad.zip). -->
+      <article class="proj-card">
+        <div class="proj-photo" style="background-image:url('final concept of drone new motor mounts.jpg');"></div>
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—001</div>
+            <div class="proj-name">Autonomous Quadrotor Platform</div>
+          </div>
+          <span class="proj-tag">UAV · Flight-tested</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Ground-up carbon-fiber quadrotor airframe designed for payload
+            delivery in constrained environments. Owned structural design,
+            propulsion sizing, and mechanical integration of the flight
+            controller, ESCs, and companion computer. Iterated through three
+            airframe revisions to cut structural weight by 22% while holding
+            stiffness targets under FEA.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">Frame</span><span class="v">480mm, carbon fiber</span></div>
+            <div class="spec-row"><span class="k">MTOW</span><span class="v">2.1 kg</span></div>
+            <div class="spec-row"><span class="k">Payload</span><span class="v">600 g</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">SolidWorks, ANSYS</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <!-- EDIT ME: point this at your actual CAD file/folder -->
+          <a href="files/quadrotor-cad.zip">CAD files</a>
+        </div>
+      </article>
+
+      <!-- EDIT ME: PROJECT 2 -->
+      <article class="proj-card">
+        <div class="proj-photo" style="background-image:url('images/rover.jpg');">
+          <span class="placeholder-note">Add images/rover.jpg for this project's photo</span>
+        </div>
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—002</div>
+            <div class="proj-name">Terrain-Adaptive Rover Suspension</div>
+          </div>
+          <span class="proj-tag">Ground robotics</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Independent rocker-bogie derived suspension for a 6-wheel research
+            rover, designed to maintain wheel contact across uneven terrain
+            without active control. Full kinematic simulation in MATLAB
+            preceded physical prototyping; final geometry validated on a
+            custom test rig with 15cm obstacle clearance.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">Config</span><span class="v">6-wheel, passive</span></div>
+            <div class="spec-row"><span class="k">Obstacle clearance</span><span class="v">150 mm</span></div>
+            <div class="spec-row"><span class="k">Chassis mass</span><span class="v">4.8 kg</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">Fusion 360, MATLAB</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <a href="#">Demo video</a>
+        </div>
+      </article>
+
+      <!-- EDIT ME: PROJECT 3 -->
+      <article class="proj-card">
+        <div class="proj-photo" style="background-image:url('images/arm.jpg');">
+          <span class="placeholder-note">Add images/arm.jpg for this project's photo</span>
+        </div>
+        <div class="proj-head">
+          <div>
+            <div class="proj-num">PRJ—003</div>
+            <div class="proj-name">6-DOF Robotic Arm</div>
+          </div>
+          <span class="proj-tag">Manipulator</span>
+        </div>
+        <div class="proj-body">
+          <p>
+            Desktop-scale robotic arm built to explore custom actuator and
+            gear-train design. Designed planetary gearboxes for each joint,
+            selected and sized BLDC actuators, and built the full mechanical
+            assembly around a target 500g end-effector payload at full
+            extension.
+          </p>
+          <div class="spec-table">
+            <div class="spec-row"><span class="k">DOF</span><span class="v">6</span></div>
+            <div class="spec-row"><span class="k">Reach</span><span class="v">420 mm</span></div>
+            <div class="spec-row"><span class="k">Payload</span><span class="v">500 g</span></div>
+            <div class="spec-row"><span class="k">Tools</span><span class="v">Onshape, custom gearboxes</span></div>
+          </div>
+        </div>
+        <div class="proj-links" style="padding:0 26px 26px;">
+          <a href="#">Write-up</a>
+          <a href="files/arm-cad.zip">CAD files</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="skills" data-bg="images/skills-bg.jpg">
+    <div class="dim-divider">
+      <span class="dim-label">Tools &amp; systems</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="skill-grid">
+      <div class="skill-cat">
+        <h3>CAD / Design</h3>
+        <ul>
+          <li>SolidWorks</li>
+          <li>Fusion 360</li>
+          <li>Onshape</li>
+          <li>GD&amp;T</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Analysis</h3>
+        <ul>
+          <li>ANSYS FEA</li>
+          <li>MATLAB / Simulink</li>
+          <li>Kinematics &amp; dynamics</li>
+          <li>Tolerance stacks</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Fabrication</h3>
+        <ul>
+          <li>CNC machining</li>
+          <li>Composite layup</li>
+          <li>3D printing (FDM/SLA)</li>
+          <li>Sheet metal</li>
+        </ul>
+      </div>
+      <div class="skill-cat">
+        <h3>Electrical / Software</h3>
+        <ul>
+          <li>PX4 / ArduPilot</li>
+          <li>ROS 2</li>
+          <li>Python, C++</li>
+          <li>KiCad</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact" data-bg="images/contact-bg.jpg">
+    <div class="dim-divider">
+      <span class="dim-label">Contact</span>
+      <span class="rule"></span>
+    </div>
+
+    <div class="contact-box">
+      <h2>Building something mechanical? Let's talk.</h2>
+      <!-- EDIT ME: your real contact info -->
+      <div class="contact-links">
+        <a href="mailto:armaan.jass@example.com">armaan.jass@example.com</a>
+        <a href="https://github.com/yourusername">github.com/yourusername</a>
+        <a href="https://linkedin.com/in/yourusername">linkedin.com/in/yourusername</a>
+      </div>
+    </div>
+
+    <div class="foot-meta">
+      <span>© 2026 Armaan Jass</span>
+      <span>Drawn digitally. No scale.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // ===========================================================================
+  // Scrolling background crossfade
+  // Each <section> / <header> / <footer> above has a data-bg attribute.
+  // As a new one enters the middle of the viewport, we fade the background
+  // stage over to that image. If an image fails to load (e.g. you haven't
+  // added it yet), the gradient background on .bg-stage still shows through,
+  // so nothing looks broken while you're filling in real photos.
+  // ===========================================================================
+  (function () {
+    const layers = [document.getElementById('bgLayerA'), document.getElementById('bgLayerB')];
+    let activeIndex = 0;
+    let currentSrc = null;
+
+    function setBackground(url) {
+      if (!url || url === currentSrc) return;
+      currentSrc = url;
+      const incoming = layers[1 - activeIndex];
+      const outgoing = layers[activeIndex];
+      incoming.style.backgroundImage = `url('${url}')`;
+      incoming.classList.add('active');
+      outgoing.classList.remove('active');
+      activeIndex = 1 - activeIndex;
+    }
+
+    const sections = document.querySelectorAll('[data-bg]');
+    if ('IntersectionObserver' in window && sections.length) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setBackground(entry.target.getAttribute('data-bg'));
+          }
+        });
+      }, { threshold: 0.35 });
+
+      sections.forEach((el) => observer.observe(el));
+    }
+  })();
+
+  // ===========================================================================
+  // Portrait photo — shows images/portrait.jpg automatically if it exists,
+  // otherwise keeps the placeholder note visible.
+  // ===========================================================================
+  (function () {
+    const frame = document.getElementById('portraitFrame');
+    const img = new Image();
+    img.src = 'portrait.jpg';
+    img.alt = 'Armaan Jass';
+    img.onload = () => { frame.innerHTML = ''; frame.appendChild(img); };
+  })();
+
+  // ===========================================================================
+  // Smooth, offset-aware in-page navigation (accounts for the sticky nav bar)
+  // ===========================================================================
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const navHeight = document.querySelector('nav').offsetHeight;
+      const top = target.getBoundingClientRect().top + window.scrollY - navHeight + 1;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
