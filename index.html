@@ -418,7 +418,11 @@
     border:1px solid var(--border-soft); background:#0F151A;
     aspect-ratio:4/3;
   }
-  .media-widget.is-video{aspect-ratio:16/9;}
+  .media-widget.is-video{aspect-ratio:auto; height:auto; background:#0F151A;}
+  .media-widget.is-video video{
+    width:100%; height:auto; max-height:80vh; object-fit:contain; display:block;
+  }
+  .media-widget.is-video iframe{width:100%; aspect-ratio:16/9; display:block;}
   .media-widget img, .media-widget video, .media-widget iframe{
     width:100%; height:100%; object-fit:cover; display:block; border:none;
   }
@@ -857,48 +861,56 @@
       // matching photo/video with the same filename shown as "label".
       blocks: [
         {
-          type: 'pair',
-          title: 'Flight footage',
-          items: [
-            { type: 'video', src: '', label: 'Drone flying — video (EDIT ME: add your video filename)' },
-            { type: 'image', src: 'drone in air.jpg', label: 'Drone — static shot' }
-          ]
-        },
-        {
-          type: 'text',
-          title: 'Troubleshooting / Prototype',
-          text: 'EDIT ME: add a short paragraph here about the troubleshooting and prototyping phase — what went wrong first, and what you learned from it.'
+          type: 'media',
+          item: { type: 'video', src: 'Drone flying video.mp4', label: 'Drone flying video' }
         },
         {
           type: 'pair',
           title: 'Motor mounts',
           items: [
-            { type: 'image', src: '', label: 'Old motor mounts (EDIT ME: likely "prototype concept of drone old motor mounts.jpg" — double check the exact filename on GitHub)' },
+            { type: 'image', src: '', label: 'Old motor mounts (EDIT ME: likely "prototype concept of drone old motor mounts.jpg" — double check the exact filename on GitHub, it got cut off in the file list)' },
             { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'New motor mounts' }
-          ],
-          caption: 'EDIT ME: explain why the motor mounts changed and what the new design does differently.'
-        },
-        {
-          type: 'pair',
-          title: 'Airframe',
-          items: [
-            { type: 'image', src: '', label: 'Old frame (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'New frame (EDIT ME: add filename)' }
-          ],
-          caption: 'EDIT ME: explain why the frame/material changed.'
-        },
-        {
-          type: 'grid',
-          title: 'Build process',
-          items: [
-            { type: 'video', src: '', label: '3D printing timelapse (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'You and the team (EDIT ME: add filename)' },
-            { type: 'video', src: '', label: 'Flight video (EDIT ME: add filename)' }
           ]
         },
         {
           type: 'text',
-          text: 'EDIT ME: add a closing note here — final thoughts, what you\'d do differently next time, or what you learned overall.'
+          text: 'EDIT ME: why we had to change the motor mounts.'
+        },
+        {
+          type: 'pair',
+          title: 'Frame',
+          items: [
+            { type: 'image', src: '', label: 'Old frame (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'New frame (EDIT ME: add filename)' }
+          ]
+        },
+        {
+          type: 'text',
+          text: 'EDIT ME: why we changed the frame/materials.'
+        },
+        {
+          type: 'text',
+          title: 'MARK I',
+          text: 'EDIT ME: a couple sentences about MARK I.'
+        },
+        {
+          type: 'pair',
+          items: [
+            { type: 'image', src: '', label: 'final concept of drone old motor mounts (EDIT ME: photo not uploaded yet)' },
+            { type: 'video', src: 'prototype drone.mp4', label: 'Prototype drone' }
+          ]
+        },
+        {
+          type: 'pair',
+          title: 'MARK II',
+          items: [
+            { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'Final concept — new motor mounts' },
+            { type: 'video', src: 'MARK II first flight.mp4', label: 'MARK II — first flight' }
+          ]
+        },
+        {
+          type: 'text',
+          text: 'EDIT ME: space to write about MARK II.'
         }
       ],
       links: [
@@ -932,24 +944,20 @@
           mediaSide: 'left'
         },
         {
+          type: 'media',
+          title: 'Throttle Body — CAD File',
+          item: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' }
+        },
+        {
+          type: 'text',
+          text: 'EDIT ME: write about the CAD file / design process here.'
+        },
+        {
           type: 'mediaText',
-          title: 'Mechanical — Throttle body',
-          media: { type: 'video', src: '', label: 'Throttle body testing clip, ~10s (EDIT ME: add filename)' },
-          text: 'EDIT ME: why you decided to make the throttle body, why it was needed, and how you made it.',
+          title: 'Throttle Body — After Printing',
+          media: { type: 'video', src: 'Throttle body after printing.mp4', label: 'Throttle body — after printing' },
+          text: 'EDIT ME: how it was made and the implications.',
           mediaSide: 'left'
-        },
-        // EDIT ME: these two are placeholders — swap the title, photo and text
-        // for whatever you actually want to show for the throttle body build
-        // (machining process, final assembly, testing setup, etc.)
-        {
-          type: 'media',
-          title: 'EDIT ME: section title',
-          item: { type: 'image', src: '', label: 'EDIT ME: add a photo + rename this section' }
-        },
-        {
-          type: 'media',
-          title: 'EDIT ME: section title',
-          item: { type: 'image', src: '', label: 'EDIT ME: add a photo + rename this section' }
         }
       ],
       links: [
@@ -984,34 +992,38 @@
             'Our group of six was split up so each person was responsible for six required parts. I ended up designing 13 parts in total, including the most advanced components, which I also converted into formal 2D engineering drawings — I completed 3 of these and scored higher than 90% on them.\n\nThe full project ran more than two and a half months and produced over 50 parts in total, and the final build performed well overall.'
         },
         {
-          type: 'triptych',
+          type: 'media',
           title: 'Solar Roof',
+          item: { type: 'video', src: 'Solar roof video.mp4', label: 'Solar roof' }
+        },
+        {
+          type: 'media',
+          title: 'Wheel — Part 1',
+          item: { type: 'video', src: 'First part of wheel vid .mp4', label: 'First part of wheel' }
+        },
+        {
+          type: 'pair',
           items: [
-            { type: 'image', src: '', label: 'Solar roof — photo 1 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Solar roof — photo 2 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Solar roof — photo 3 (EDIT ME: add filename)' }
+            { type: 'image', src: 'First page of wheel 2d drawing first page.jpg', label: '2D drawing — page 1' },
+            { type: 'image', src: 'First part of wheel first page 2d drawing.jpg', label: '2D drawing — page 2' }
           ]
         },
         {
-          type: 'triptych',
-          title: 'Rover Wheel',
+          type: 'media',
+          title: 'Wheel — Part 2',
+          item: { type: 'video', src: 'Seconf part of wheel vid.mp4', label: 'Second part of wheel' }
+        },
+        {
+          type: 'pair',
           items: [
-            { type: 'image', src: '', label: 'Rover wheel — photo 1 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 2 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 3 (EDIT ME: add filename)' }
+            { type: 'image', src: 'second part of wheel 2d drawing first page.jpg', label: '2D drawing — page 1' },
+            { type: 'image', src: 'second part of wheel 2d drawing.jpg', label: '2D drawing — page 2' }
           ]
         },
         {
-          type: 'grid',
-          columns: 2,
-          items: [
-            { type: 'image', src: '', label: 'Rover wheel — photo 4 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 5 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 6 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 7 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 8 (EDIT ME: add filename)' },
-            { type: 'image', src: '', label: 'Rover wheel — photo 9 (EDIT ME: add filename)' }
-          ]
+          type: 'media',
+          title: 'Assembly of Wheels',
+          item: { type: 'video', src: 'Wheels together video.mp4', label: 'Wheels together' }
         },
         {
           type: 'media',
@@ -1323,10 +1335,55 @@
 
     document.querySelector('.overlay-scroll').scrollTop = 0;
     document.body.style.overflow = 'hidden';
+    setupVideoAutoplay();
+  }
+
+  // ---------------------------------------------------------------------
+  // Scroll-to-play: as you scroll through a project's sections, whichever
+  // video is nearest the centre of the screen plays automatically; the
+  // one before it pauses and resets. Videos start muted because browsers
+  // block unmuted autoplay that isn't triggered by a direct click — the
+  // native controls still let you unmute manually.
+  // ---------------------------------------------------------------------
+  let videoObserver = null;
+
+  function setupVideoAutoplay() {
+    if (videoObserver) { videoObserver.disconnect(); videoObserver = null; }
+    const scrollRoot = document.querySelector('.overlay-scroll');
+    const videos = document.querySelectorAll('#overlayBlocks video, #overlayVideoSection video');
+    if (!videos.length) return;
+
+    videos.forEach((v) => {
+      v.muted = true;
+      v.setAttribute('muted', '');
+      v.playsInline = true;
+      v.loop = true;
+    });
+
+    videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        if (entry.isIntersecting) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+          v.currentTime = 0;
+        }
+      });
+      // Only ever leave the single most-centered video playing, in case
+      // more than one crosses the threshold at once during a fast scroll.
+    }, { root: scrollRoot, rootMargin: '-38% 0px -38% 0px', threshold: 0 });
+
+    videos.forEach((v) => videoObserver.observe(v));
   }
 
   function closeProject() {
     if (!currentProjectId) return;
+    if (videoObserver) { videoObserver.disconnect(); videoObserver = null; }
+    document.querySelectorAll('#overlayBlocks video, #overlayVideoSection video').forEach((v) => {
+      v.pause();
+      v.currentTime = 0;
+    });
     const rect = getCardRect(currentProjectId);
     overlay.classList.remove('open');
     overlay.style.top = rect.top + 'px';
