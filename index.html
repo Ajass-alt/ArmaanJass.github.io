@@ -451,6 +451,9 @@
   .triptych-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
   .triptych-center{max-width:360px; margin:0 auto;}
   @media (max-width:600px){ .triptych-row{grid-template-columns:1fr;} }
+  .block-stack-pair{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;}
+  .block-stack-pair .stack-col{display:flex; flex-direction:column;}
+  @media (max-width:720px){ .block-stack-pair{grid-template-columns:1fr;} }
 
   /* ---------- SKILLS ---------- */
   .skill-grid{
@@ -866,10 +869,26 @@
         },
         {
           type: 'pair',
-          title: 'Motor mounts',
+          title: '3D Printing',
           items: [
-            { type: 'image', src: '', label: 'Old motor mounts (EDIT ME: likely "prototype concept of drone old motor mounts.jpg" — double check the exact filename on GitHub, it got cut off in the file list)' },
-            { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'New motor mounts' }
+            { type: 'video', src: '', label: '3D printing — video 1 (EDIT ME: not uploaded yet)' },
+            { type: 'video', src: '', label: '3D printing — video 2 (EDIT ME: not uploaded yet)' }
+          ]
+        },
+        {
+          type: 'pair',
+          title: 'MARK ONE Motor Mounts',
+          items: [
+            { type: 'video', src: '', label: 'CAD file — old motor mount (EDIT ME: not uploaded yet)' },
+            { type: 'image', src: 'carbon fibre tubes and motor layout.jpg', label: 'Carbon fibre tubes and motor layout' }
+          ]
+        },
+        {
+          type: 'pair',
+          title: 'MARK TWO Motor Mounts',
+          items: [
+            { type: 'video', src: '', label: 'CAD file — new motor mount (EDIT ME: not uploaded yet)' },
+            { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'Final concept — new motor mounts' }
           ]
         },
         {
@@ -889,16 +908,13 @@
           text: 'EDIT ME: why we changed the frame/materials.'
         },
         {
-          type: 'text',
+          type: 'stackPair',
           title: 'MARK I',
-          text: 'EDIT ME: a couple sentences about MARK I.'
-        },
-        {
-          type: 'pair',
-          items: [
-            { type: 'image', src: '', label: 'final concept of drone old motor mounts (EDIT ME: photo not uploaded yet)' },
-            { type: 'video', src: 'prototype drone.mp4', label: 'Prototype drone' }
-          ]
+          left: {
+            media: { type: 'image', src: '', label: 'final concept of drone old motor mounts (EDIT ME: photo not uploaded yet)' },
+            text: 'EDIT ME: a couple sentences about MARK I.'
+          },
+          right: { type: 'video', src: 'prototype drone.mp4', label: 'Prototype drone' }
         },
         {
           type: 'pair',
@@ -1056,10 +1072,6 @@
       video: null,
       blocks: [
         {
-          type: 'media',
-          item: { type: 'video', src: '', label: 'Sprinkler system running \u2014 video (EDIT ME: add your video filename)' }
-        },
-        {
           type: 'text',
           title: 'Co-op',
           text: 'EDIT ME: add how long you worked here (it was a co-op), what you learned overall, and how troubleshooting was the main focus of the role.'
@@ -1072,30 +1084,37 @@
         {
           type: 'pair',
           items: [
-            { type: 'image', src: 'messy wires.jpg', label: 'Before', caption: 'Before' },
-            { type: 'image', src: 'tidy and clean wires.jpg', label: 'After', caption: 'After' }
+            { type: 'video', src: 'sprinkler systems.mp4', label: 'Sprinkler systems' },
+            { type: 'image', src: 'technician truck.jpg', label: 'Technician truck' }
           ]
+        },
+        {
+          type: 'text',
+          title: 'Troubleshooting',
+          text: 'Troubleshooting and general fixes \u2014 hands-on repair work across the system.'
         },
         {
           type: 'pair',
-          title: 'Piping Systems',
           items: [
-            { type: 'image', src: '', label: 'Digging out the old piping (EDIT ME: add filename)', caption: 'Before' },
-            { type: 'image', src: '', label: 'Finished piping (EDIT ME: add filename)', caption: 'After' }
-          ]
+            { type: 'image', src: 'messy wires.jpg', label: 'Before', caption: 'Before' },
+            { type: 'image', src: 'tidy and clean wires.jpg', label: 'After', caption: 'After' }
+          ],
+          caption:
+            'These two photos show a controller I installed that connects to solenoids across a commercial site. Each valve box holds multiple solenoids for different sprinkler zones, and every two sprinklers typically share one wire spliced back to a common line, all routed back to the controller shown here. The left photo shows the wiring before I got to it; the right shows it after I identified and labeled each wire by solenoid and tidied everything up, so the next person can immediately see what connects where.'
         },
         {
-          type: 'media',
-          item: { type: 'image', src: '', label: 'Commercial site \u2014 finished job (EDIT ME: add filename)' }
+          type: 'pair',
+          items: [
+            { type: 'video', src: 'trench and new hydraulic system video.mp4', label: 'Trenching + new hydraulic system' },
+            { type: 'image', src: 'final piping system dripline.jpg', label: 'Finished drip line' }
+          ],
+          caption: 'Left: excavating and laying new pipe in the ground. Right: what a finished drip line looks like outside a home.'
         },
         {
           type: 'text',
           title: 'Looking back',
-          text: 'EDIT ME: add what you learned overall from this role.'
-        },
-        {
-          type: 'media',
-          item: { type: 'video', src: '', label: 'Optional closing video (EDIT ME: add a filename, or delete this whole block if you don\u2019t want one)' }
+          text:
+            'Over the course of the co-op, I also handled multiple full installs. The video above shows me digging a trench to run a new piping system for a lawn sprinkler setup. Since a gas line ran directly under part of the planned trench route, we couldn\u2019t use vibrating equipment there \u2014 so we had to reroute around it and make careful, deliberate calls about where and how to dig. Once the trench was in, we placed the wire and ran it back to the controller.\n\nThe real lesson here wasn\u2019t complicated, but it was realistic: troubleshooting, installing around obstacles like gas lines and property constraints, and treating cost \u2014 less pipe, less wire, less time \u2014 as a genuine design constraint. That trade-off thinking is a big part of what real engineering work looks like day to day.\n\nThe drip line photo above also ties into a bit of quick math \u2014 figuring out gallons per minute based on the water pressure available, which depends heavily on the source (a well, a cistern, or straight off the municipal line, since each delivers very different pressure). The piping type matters too: drip line has much lower flow than a standard sprinkler head, so a zone running on drip line might need to run for around 10 minutes, two to three times a day, instead of one longer cycle.'
         }
       ],
       links: []
@@ -1247,6 +1266,13 @@
         const textHtml = `<div class="block-text-panel"><p>${escapeHtml(b.text)}</p></div>`;
         const parts = b.mediaSide === 'right' ? [textHtml, mediaHtml] : [mediaHtml, textHtml];
         return `<div class="block">${titleHtml}<div class="block-media-text">${parts.join('')}</div></div>`;
+      }
+      // Left column: a photo with its own write-up stacked directly underneath it.
+      // Right column: one media item (e.g. a video) spanning the full height beside it.
+      if (b.type === 'stackPair') {
+        const leftCol = `<div class="stack-col">${renderItem(b.left.media)}<div class="block-text-panel" style="margin-top:14px;"><p>${escapeHtml(b.left.text)}</p></div></div>`;
+        const rightCol = `<div class="stack-col">${renderItem(b.right)}</div>`;
+        return `<div class="block">${titleHtml}<div class="block-stack-pair">${leftCol}${rightCol}</div></div>`;
       }
       // Three photos: first two side by side, third centered underneath — e.g. "Solar Roof" or "Rover Wheel".
       if (b.type === 'triptych') {
