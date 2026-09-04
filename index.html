@@ -106,7 +106,7 @@
        Lower the numbers (0.0–1.0) to show more of the photo,
        raise them to darken it for text readability. */
     background:
-      linear-gradient(180deg, rgba(11,15,18,0.8) 0%, rgba(11,15,18,0.8) 40%, rgba(11,15,18,0.8) 100%);
+      linear-gradient(180deg, rgba(11,15,18,0.55) 0%, rgba(11,15,18,0.35) 40%, rgba(11,15,18,0.55) 100%);
   }
 
   /* ---------- NAV ---------- */
@@ -270,9 +270,17 @@
     border-radius:12px;
     overflow:hidden;
     display:flex; flex-direction:column;
+    cursor:pointer;
     transition:border-color 0.2s ease, transform 0.2s ease;
   }
   .proj-card:hover{border-color:var(--accent-dim); transform:translateY(-2px);}
+  .proj-photo{position:relative;}
+  .proj-photo .view-hint{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(11,15,18,0.45); opacity:0; transition:opacity 0.2s ease;
+    font-family:var(--sans); font-size:13px; font-weight:600; color:#fff;
+  }
+  .proj-card:hover .view-hint{opacity:1;}
 
   /* EDIT ME: project photo/render — replace the background-image url on
      each .proj-photo below (or swap in an <img> tag) with your own shot,
@@ -324,6 +332,71 @@
   }
   .proj-links a:hover{opacity:0.7;}
   @media (max-width:720px){ .proj-list{grid-template-columns:1fr;} }
+
+  /* ---------- PROJECT DETAIL OVERLAY ---------- */
+  .proj-overlay{
+    position:fixed; z-index:200; overflow:hidden;
+    border-radius:12px;
+    visibility:hidden;
+    transition:top 0.55s cubic-bezier(.22,.61,.36,1), left 0.55s cubic-bezier(.22,.61,.36,1),
+               width 0.55s cubic-bezier(.22,.61,.36,1), height 0.55s cubic-bezier(.22,.61,.36,1),
+               border-radius 0.55s ease;
+  }
+  .proj-overlay.open{visibility:visible;}
+  .overlay-bg{
+    position:absolute; inset:-6%;
+    background-size:cover; background-position:center;
+    filter:brightness(1.05) saturate(1.05);
+  }
+  .overlay-scrim{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(11,15,18,0.72) 0%, rgba(11,15,18,0.5) 32%, rgba(11,15,18,0.94) 100%);
+  }
+  .overlay-close{
+    position:fixed; top:20px; right:24px; z-index:210;
+    width:40px; height:40px; border-radius:50%;
+    border:1px solid var(--border); background:rgba(11,15,18,0.65); color:var(--text);
+    font-size:16px; line-height:1; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity 0.3s ease;
+  }
+  .proj-overlay.open .overlay-close{opacity:1; pointer-events:auto;}
+  .overlay-scroll{
+    position:absolute; inset:0; overflow-y:auto;
+    opacity:0; transition:opacity 0.35s ease 0.15s;
+  }
+  .proj-overlay.open .overlay-scroll{opacity:1;}
+  .overlay-content{padding:110px 32px 110px; position:relative; z-index:1;}
+  .overlay-num{font-family:var(--mono); font-size:12px; color:var(--text-dim); margin-bottom:10px;}
+  .overlay-title{
+    font-family:var(--display); font-weight:700; font-size:clamp(28px,5vw,46px);
+    letter-spacing:-0.01em; margin-bottom:14px; max-width:800px;
+  }
+  .overlay-tag{
+    display:inline-block; font-family:var(--sans); font-size:12px; font-weight:600;
+    color:var(--caution); border:1px solid rgba(232,163,61,0.4);
+    padding:5px 12px; border-radius:20px; margin-bottom:26px;
+  }
+  .overlay-desc{max-width:70ch; font-size:16.5px; color:var(--text-muted); margin-bottom:34px; white-space:pre-line;}
+  .overlay-specs{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:1px;
+    background:var(--border-soft); border:1px solid var(--border-soft); border-radius:10px;
+    overflow:hidden; margin-bottom:40px;
+  }
+  .overlay-specs .spec-cell{background:rgba(17,23,28,0.75); padding:14px 16px;}
+  .overlay-specs .spec-cell .k{font-family:var(--sans); font-size:11.5px; color:var(--text-dim); margin-bottom:4px;}
+  .overlay-specs .spec-cell .v{font-family:var(--display); font-size:15px; font-weight:600; color:var(--text);}
+  .overlay-section-label{font-family:var(--sans); font-size:13px; font-weight:600; color:var(--text-dim); margin-bottom:14px;}
+  .overlay-gallery{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; margin-bottom:40px;}
+  .overlay-gallery img{width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; border:1px solid var(--border-soft); display:block;}
+  .overlay-video{margin-bottom:40px;}
+  .overlay-video video, .overlay-video iframe{width:100%; aspect-ratio:16/9; border-radius:10px; border:1px solid var(--border-soft); display:block;}
+  .overlay-links{display:flex; gap:16px; flex-wrap:wrap;}
+  .overlay-links a{
+    font-family:var(--sans); font-size:14px; font-weight:600; text-decoration:none;
+    color:var(--bg); background:var(--accent); padding:11px 18px; border-radius:7px;
+    transition:background 0.15s ease;
+  }
+  .overlay-links a:hover{background:#79c1e5;}
 
   /* ---------- SKILLS ---------- */
   .skill-grid{
@@ -483,114 +556,15 @@
 
   <section id="projects" data-bg="final piping system dripline.jpg">
     <div class="dim-divider">
-      <span class="dim-label">Selected projects</span>
+      <span class="dim-label">Selected projects &amp; experience</span>
       <span class="rule"></span>
     </div>
 
-    <div class="proj-list">
-
-      <!-- EDIT ME: PROJECT 1 — set background-image to your own photo,
-           e.g. images/quadrotor.jpg. Add a CAD file link under proj-links
-           (host the file in the repo, e.g. files/quadrotor-cad.zip). -->
-      <article class="proj-card">
-        <div class="proj-photo" style="background-image:url('drone in air.jpg');"></div>
-        <div class="proj-head">
-          <div>
-            <div class="proj-num">PRJ—001</div>
-            <div class="proj-name">Autonomous Quadrotor Platform</div>
-          </div>
-          <span class="proj-tag">UAV · Flight-tested</span>
-        </div>
-        <div class="proj-body">
-          <p>
-            Ground-up carbon-fiber quadrotor airframe designed for payload
-            delivery in constrained environments. Owned structural design,
-            propulsion sizing, and mechanical integration of the flight
-            controller, ESCs, and companion computer. Iterated through three
-            airframe revisions to cut structural weight by 22% while holding
-            stiffness targets under FEA.
-          </p>
-          <div class="spec-table">
-            <div class="spec-row"><span class="k">Frame</span><span class="v">480mm, carbon fiber</span></div>
-            <div class="spec-row"><span class="k">MTOW</span><span class="v">2.1 kg</span></div>
-            <div class="spec-row"><span class="k">Payload</span><span class="v">600 g</span></div>
-            <div class="spec-row"><span class="k">Tools</span><span class="v">SolidWorks, ANSYS</span></div>
-          </div>
-        </div>
-        <div class="proj-links" style="padding:0 20px 20px;">
-          <a href="#">Write-up</a>
-          <!-- EDIT ME: point this at your actual CAD file/folder -->
-          <a href="files/quadrotor-cad.zip">CAD files</a>
-        </div>
-      </article>
-
-      <!-- EDIT ME: PROJECT 2 -->
-      <article class="proj-card">
-        <div class="proj-photo" style="background-image:url('images/rover.jpg');">
-          <span class="placeholder-note">Add images/rover.jpg for this project's photo</span>
-        </div>
-        <div class="proj-head">
-          <div>
-            <div class="proj-num">PRJ—002</div>
-            <div class="proj-name">Terrain-Adaptive Rover Suspension</div>
-          </div>
-          <span class="proj-tag">Ground robotics</span>
-        </div>
-        <div class="proj-body">
-          <p>
-            Independent rocker-bogie derived suspension for a 6-wheel research
-            rover, designed to maintain wheel contact across uneven terrain
-            without active control. Full kinematic simulation in MATLAB
-            preceded physical prototyping; final geometry validated on a
-            custom test rig with 15cm obstacle clearance.
-          </p>
-          <div class="spec-table">
-            <div class="spec-row"><span class="k">Config</span><span class="v">6-wheel, passive</span></div>
-            <div class="spec-row"><span class="k">Obstacle clearance</span><span class="v">150 mm</span></div>
-            <div class="spec-row"><span class="k">Chassis mass</span><span class="v">4.8 kg</span></div>
-            <div class="spec-row"><span class="k">Tools</span><span class="v">Fusion 360, MATLAB</span></div>
-          </div>
-        </div>
-        <div class="proj-links" style="padding:0 20px 20px;">
-          <a href="#">Write-up</a>
-          <a href="#">Demo video</a>
-        </div>
-      </article>
-
-      <!-- EDIT ME: PROJECT 3 -->
-      <article class="proj-card">
-        <div class="proj-photo" style="background-image:url('images/arm.jpg');">
-          <span class="placeholder-note">Add images/arm.jpg for this project's photo</span>
-        </div>
-        <div class="proj-head">
-          <div>
-            <div class="proj-num">PRJ—003</div>
-            <div class="proj-name">6-DOF Robotic Arm</div>
-          </div>
-          <span class="proj-tag">Manipulator</span>
-        </div>
-        <div class="proj-body">
-          <p>
-            Desktop-scale robotic arm built to explore custom actuator and
-            gear-train design. Designed planetary gearboxes for each joint,
-            selected and sized BLDC actuators, and built the full mechanical
-            assembly around a target 500g end-effector payload at full
-            extension.
-          </p>
-          <div class="spec-table">
-            <div class="spec-row"><span class="k">DOF</span><span class="v">6</span></div>
-            <div class="spec-row"><span class="k">Reach</span><span class="v">420 mm</span></div>
-            <div class="spec-row"><span class="k">Payload</span><span class="v">500 g</span></div>
-            <div class="spec-row"><span class="k">Tools</span><span class="v">Onshape, custom gearboxes</span></div>
-          </div>
-        </div>
-        <div class="proj-links" style="padding:0 20px 20px;">
-          <a href="#">Write-up</a>
-          <a href="files/arm-cad.zip">CAD files</a>
-        </div>
-      </article>
-
-    </div>
+    <!-- Cards are built from the PROJECTS array near the bottom of this file.
+         Click a card (anywhere except its links) and it grows into a full
+         detail page using that project's own photo as the background —
+         see PROJECTS below to edit names, photos, galleries, video, specs. -->
+    <div class="proj-list" id="projList"></div>
   </section>
 
   <section id="skills">
@@ -661,6 +635,32 @@
     </div>
   </footer>
 
+</div>
+
+<!-- Full-screen project detail overlay: hidden until a card is clicked.
+     Populated entirely by JS from the PROJECTS array below. -->
+<div class="proj-overlay" id="projOverlay" aria-hidden="true">
+  <div class="overlay-bg" id="overlayBg"></div>
+  <div class="overlay-scrim"></div>
+  <button class="overlay-close" id="overlayClose" aria-label="Close project details" type="button">✕</button>
+  <div class="overlay-scroll">
+    <div class="overlay-content wrap">
+      <div class="overlay-num" id="overlayNum"></div>
+      <h2 class="overlay-title" id="overlayTitle"></h2>
+      <span class="overlay-tag" id="overlayTag"></span>
+      <p class="overlay-desc" id="overlayDesc"></p>
+      <div class="overlay-specs" id="overlaySpecs"></div>
+      <div id="overlayGallerySection">
+        <div class="overlay-section-label">Photos</div>
+        <div class="overlay-gallery" id="overlayGallery"></div>
+      </div>
+      <div id="overlayVideoSection">
+        <div class="overlay-section-label">Video</div>
+        <div class="overlay-video" id="overlayVideo"></div>
+      </div>
+      <div class="overlay-links" id="overlayLinks"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -757,6 +757,304 @@
       window.scrollTo({ top, behavior: 'smooth' });
     });
   });
+
+  // ===========================================================================
+  // PROJECTS — this is the single source of truth for every project card AND
+  // its full detail page. To edit a project (text, photos, video, links),
+  // just edit its object below. To add a new project, copy one whole object
+  // (from the opening { to the closing },) and change its fields.
+  //
+  //   id        — short, unique, no spaces (used internally, e.g. in the URL)
+  //   num       — small label shown top-left of the card, e.g. "PRJ—001"
+  //   name      — project/role title
+  //   tag       — small pill label, e.g. "UAV · Flight-tested"
+  //   cover     — filename shown on the card AND as the full-screen
+  //               background once you click into it
+  //   summary   — 1–3 sentences shown on the collapsed card
+  //   description — longer text shown on the detail page (can be several
+  //               sentences; use \n\n between paragraphs)
+  //   specs     — array of { k: label, v: value } shown as a small stat grid
+  //   gallery   — array of extra photo filenames shown on the detail page.
+  //               Leave as [] if you don't have extra photos yet.
+  //   video     — { src: 'yourfile.mp4' } for a file you've uploaded, or
+  //               { embed: 'https://www.youtube.com/embed/VIDEO_ID' } for a
+  //               YouTube/Vimeo link, or null if there's no video yet.
+  //   links     — array of { label, href } buttons, e.g. CAD files, write-up
+  // ===========================================================================
+  const PROJECTS = [
+    {
+      id: 'quadcopter',
+      num: 'PRJ—001',
+      name: 'Quadcopter',
+      tag: 'UAV · Flight-tested',
+      cover: 'drone in air.jpg',
+      summary: 'Ground-up carbon-fiber quadrotor airframe designed for payload delivery in constrained environments.',
+      description:
+        'Ground-up carbon-fiber quadrotor airframe designed for payload delivery in constrained environments. Owned structural design, propulsion sizing, and mechanical integration of the flight controller, ESCs, and companion computer.\n\nIterated through three airframe revisions to cut structural weight by 22% while holding stiffness targets under FEA.',
+      specs: [
+        { k: 'Frame', v: '480mm, carbon fiber' },
+        { k: 'MTOW', v: '2.1 kg' },
+        { k: 'Payload', v: '600 g' },
+        { k: 'Tools', v: 'SolidWorks, ANSYS' }
+      ],
+      // EDIT ME: swap in whichever of your uploaded photos belong here
+      gallery: [
+        'carbon fibre tubes and motor layout.jpg',
+        'pixhawk mount to base.jpg',
+        'final concept of drone new motor mounts.jpg'
+      ],
+      video: null, // EDIT ME: e.g. { src: 'quadcopter-flight.mp4' }
+      links: [
+        { label: 'Write-up', href: '#' },
+        { label: 'CAD files', href: 'files/quadrotor-cad.zip' } // EDIT ME
+      ]
+    },
+    {
+      id: 'gryphons-fsae',
+      num: 'PRJ—002',
+      name: 'Gryphons Racing FSAE',
+      tag: 'Motorsports · FSAE',
+      cover: 'fsae-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
+      summary: 'Formula SAE team \u2014 add a short summary of your role and scope here.',
+      description:
+        'EDIT ME: describe your role on Gryphons Racing FSAE \u2014 what subsystem you owned (chassis, suspension, aero, powertrain, etc.), what you designed or machined, and any results (competition placing, weight/performance gains, testing you ran).',
+      specs: [
+        { k: 'Team', v: 'Gryphons Racing FSAE' }, // EDIT ME
+        { k: 'Role', v: 'Add your role' },
+        { k: 'Subsystem', v: 'Add your focus area' },
+        { k: 'Tools', v: 'Add your tools' }
+      ],
+      gallery: [], // EDIT ME: add your FSAE photo filenames here
+      video: null, // EDIT ME
+      links: [
+        { label: 'Write-up', href: '#' }
+      ]
+    },
+    {
+      id: 'design-project',
+      num: 'PRJ—003',
+      name: 'Engineering Design Project',
+      tag: 'Capstone · Design',
+      cover: 'design-project-cover.jpg', // EDIT ME
+      summary: 'Add a short summary of this design project here.',
+      description:
+        'EDIT ME: describe the brief, what problem it solved, your specific contribution, and the outcome \u2014 treat it like the short version of a resume bullet, expanded into a couple of sentences.',
+      specs: [
+        { k: 'Scope', v: 'Add scope' },
+        { k: 'Role', v: 'Add your role' },
+        { k: 'Timeline', v: 'Add duration' },
+        { k: 'Tools', v: 'Add your tools' }
+      ],
+      gallery: [], // EDIT ME
+      video: null, // EDIT ME
+      links: [
+        { label: 'Write-up', href: '#' }
+      ]
+    },
+    {
+      id: 'angus-irrigation',
+      num: 'EXP—001',
+      name: 'Angus Irrigation Technician',
+      tag: 'Experience · Technician',
+      cover: 'final piping system dripline.jpg',
+      summary: 'Hands-on troubleshooting and installation across mechanical, electrical, and hydraulic irrigation systems.',
+      description:
+        'Hands-on experience troubleshooting and installing irrigation systems \u2014 real exposure to mechanical, electrical, and hydraulic systems working outside of a CAD screen.\n\nEDIT ME: add specifics \u2014 the kinds of systems you worked on, a problem you diagnosed and fixed, and roughly how long you worked there.',
+      specs: [
+        { k: 'Role', v: 'Irrigation Technician' },
+        { k: 'Systems', v: 'Mechanical / Electrical / Hydraulic' },
+        { k: 'Focus', v: 'Installation & troubleshooting' }
+      ],
+      gallery: [
+        'messy wires.jpg',
+        'tidy and clean wires.jpg'
+      ],
+      video: null,
+      links: []
+    }
+  ];
+
+  // ---------------------------------------------------------------------
+  // Render the collapsed cards from PROJECTS
+  // ---------------------------------------------------------------------
+  const projList = document.getElementById('projList');
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  PROJECTS.forEach((p) => {
+    const card = document.createElement('article');
+    card.className = 'proj-card';
+    card.setAttribute('data-id', p.id);
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'View details for ' + p.name);
+
+    const specRows = p.specs
+      .map((s) => `<div class="spec-row"><span class="k">${escapeHtml(s.k)}</span><span class="v">${escapeHtml(s.v)}</span></div>`)
+      .join('');
+
+    const linkEls = p.links
+      .map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`)
+      .join('');
+
+    card.innerHTML = `
+      <div class="proj-photo" style="background-image:url('${p.cover}');">
+        <span class="view-hint">View details</span>
+      </div>
+      <div class="proj-head">
+        <div>
+          <div class="proj-num">${escapeHtml(p.num)}</div>
+          <div class="proj-name">${escapeHtml(p.name)}</div>
+        </div>
+        <span class="proj-tag">${escapeHtml(p.tag)}</span>
+      </div>
+      <div class="proj-body">
+        <p>${escapeHtml(p.summary)}</p>
+        <div class="spec-table">${specRows}</div>
+      </div>
+      <div class="proj-links" style="padding:0 20px 20px;">${linkEls}</div>
+    `;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return; // let real links (CAD files etc.) behave normally
+      location.hash = 'project-' + p.id;
+    });
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        location.hash = 'project-' + p.id;
+      }
+    });
+
+    projList.appendChild(card);
+  });
+
+  // ---------------------------------------------------------------------
+  // Open/close the full-screen detail overlay, animating from the
+  // clicked card's exact position and size into fullscreen.
+  // ---------------------------------------------------------------------
+  const overlay = document.getElementById('projOverlay');
+  const overlayBg = document.getElementById('overlayBg');
+  const overlayClose = document.getElementById('overlayClose');
+  let currentProjectId = null;
+
+  function getCardRect(id) {
+    const card = document.querySelector(`.proj-card[data-id="${id}"] .proj-photo`);
+    if (card) return card.getBoundingClientRect();
+    // Fallback (e.g. loaded directly from a link): grow from screen center
+    const w = Math.min(window.innerWidth * 0.5, 480);
+    const h = w * 0.75;
+    return { top: window.innerHeight / 2 - h / 2, left: window.innerWidth / 2 - w / 2, width: w, height: h };
+  }
+
+  function pxRectStyle(el, rect) {
+    el.style.top = rect.top + 'px';
+    el.style.left = rect.left + 'px';
+    el.style.width = rect.width + 'px';
+    el.style.height = rect.height + 'px';
+  }
+
+  function openProject(id) {
+    const project = PROJECTS.find((p) => p.id === id);
+    if (!project) return;
+    currentProjectId = id;
+
+    const rect = getCardRect(id);
+    overlay.style.transition = 'none';
+    overlay.style.borderRadius = '12px';
+    pxRectStyle(overlay, rect);
+    overlay.style.visibility = 'visible';
+    // force reflow so the browser registers the start position before we animate
+    overlay.getBoundingClientRect();
+    overlay.style.transition = '';
+
+    requestAnimationFrame(() => {
+      overlay.style.top = '0px';
+      overlay.style.left = '0px';
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.borderRadius = '0px';
+      overlay.classList.add('open');
+    });
+
+    overlayBg.style.backgroundImage = `url('${project.cover}')`;
+    document.getElementById('overlayNum').textContent = project.num;
+    document.getElementById('overlayTitle').textContent = project.name;
+    document.getElementById('overlayTag').textContent = project.tag;
+    document.getElementById('overlayDesc').textContent = project.description;
+
+    document.getElementById('overlaySpecs').innerHTML = project.specs
+      .map((s) => `<div class="spec-cell"><div class="k">${escapeHtml(s.k)}</div><div class="v">${escapeHtml(s.v)}</div></div>`)
+      .join('');
+
+    const gallerySection = document.getElementById('overlayGallerySection');
+    if (project.gallery && project.gallery.length) {
+      gallerySection.style.display = '';
+      document.getElementById('overlayGallery').innerHTML = project.gallery
+        .map((src) => `<img src="${src}" alt="${escapeHtml(project.name)} photo" loading="lazy">`)
+        .join('');
+    } else {
+      gallerySection.style.display = 'none';
+    }
+
+    const videoSection = document.getElementById('overlayVideoSection');
+    if (project.video && project.video.src) {
+      videoSection.style.display = '';
+      document.getElementById('overlayVideo').innerHTML =
+        `<video src="${project.video.src}" controls playsinline></video>`;
+    } else if (project.video && project.video.embed) {
+      videoSection.style.display = '';
+      document.getElementById('overlayVideo').innerHTML =
+        `<iframe src="${project.video.embed}" title="${escapeHtml(project.name)} video" frameborder="0" allowfullscreen></iframe>`;
+    } else {
+      videoSection.style.display = 'none';
+    }
+
+    document.getElementById('overlayLinks').innerHTML = project.links
+      .map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`)
+      .join('');
+
+    document.querySelector('.overlay-scroll').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProject() {
+    if (!currentProjectId) return;
+    const rect = getCardRect(currentProjectId);
+    overlay.classList.remove('open');
+    overlay.style.top = rect.top + 'px';
+    overlay.style.left = rect.left + 'px';
+    overlay.style.width = rect.width + 'px';
+    overlay.style.height = rect.height + 'px';
+    overlay.style.borderRadius = '12px';
+    document.body.style.overflow = '';
+    const idToHide = currentProjectId;
+    currentProjectId = null;
+    setTimeout(() => {
+      if (!currentProjectId) overlay.style.visibility = 'hidden';
+    }, 560);
+  }
+
+  function syncFromHash() {
+    const hash = location.hash.replace('#', '');
+    if (hash.startsWith('project-')) {
+      const id = hash.replace('project-', '');
+      if (id !== currentProjectId) openProject(id);
+    } else if (currentProjectId) {
+      closeProject();
+    }
+  }
+
+  overlayClose.addEventListener('click', () => { history.back(); });
+  window.addEventListener('hashchange', syncFromHash);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && currentProjectId) history.back();
+  });
+  syncFromHash();
 </script>
 
 </body>
