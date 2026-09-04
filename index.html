@@ -162,6 +162,14 @@
     max-width:900px;
   }
   h1.title .line2{color:var(--text-muted); font-weight:500;}
+  .hero-sub{
+    font-family:var(--sans); font-size:18px; font-weight:500;
+    color:var(--text-muted); margin-top:16px;
+  }
+  .hero-interest{
+    font-family:var(--sans); font-size:16px; color:var(--text-muted); margin-top:8px;
+  }
+  .hero-interest span{color:var(--accent); font-weight:600;}
   .hero-desc{
     max-width:560px; margin-top:26px;
     font-size:17.5px; color:var(--text-muted);
@@ -225,6 +233,17 @@
     font-family:var(--display); font-weight:600; font-size:clamp(24px,3vw,32px);
     letter-spacing:-0.01em; margin-bottom:8px;
   }
+
+  .page-header{text-align:center; max-width:640px; margin:0 auto 48px;}
+  .page-header h2{
+    font-family:var(--display); font-weight:700; font-size:clamp(30px,4vw,42px);
+    letter-spacing:-0.01em; margin-bottom:10px;
+  }
+  .page-header .page-subtitle{
+    font-family:var(--sans); font-size:14px; font-weight:600;
+    color:var(--accent); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:14px;
+  }
+  .page-header p{color:var(--text-muted); font-size:15.5px;}
 
   /* ---------- ABOUT ---------- */
   .about-grid{
@@ -493,6 +512,34 @@
   }
   .contact-links a:hover{color:var(--accent);}
   .contact-links a::before{content:'→'; color:var(--accent);}
+
+  .contact-avail{max-width:600px; margin:0 auto 40px; text-align:center; color:var(--text-muted); font-size:15.5px;}
+  .contact-avail strong{color:var(--text);}
+
+  .contact-widgets{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; margin-bottom:44px;}
+  .contact-widget{border:1px solid var(--border-soft); background:rgba(17,23,28,0.55); border-radius:12px; padding:18px 20px;}
+  .contact-widget .widget-label{
+    font-family:var(--sans); font-size:11.5px; font-weight:600; color:var(--text-dim);
+    text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;
+  }
+  .contact-widget .widget-value{font-family:var(--display); font-size:16px; font-weight:600; word-break:break-word;}
+  .contact-widget .widget-value a{color:var(--text); text-decoration:none;}
+  .contact-widget .widget-value a:hover{color:var(--accent);}
+  .contact-widget .widget-note{margin-top:8px; font-size:13px; color:var(--text-muted);}
+
+  .contact-detail{max-width:640px; margin:0 auto 44px; text-align:center;}
+  .contact-detail .detail-row{margin-bottom:10px; font-size:15px; color:var(--text-muted);}
+  .contact-detail .detail-row b{color:var(--text); font-weight:600;}
+
+  .resume-preview{max-width:360px; margin:0 auto;}
+  .resume-frame{
+    border:1px solid var(--border-soft); border-radius:12px; background:rgba(17,23,28,0.55);
+    aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;
+    margin-bottom:16px; overflow:hidden;
+  }
+  .resume-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .resume-frame .placeholder-note{font-family:var(--sans); font-size:13px; color:var(--text-dim); padding:20px; text-align:center;}
+  .resume-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
   .foot-meta{
     margin-top:26px; padding-top:20px; border-top:1px solid var(--border-soft);
     display:flex; justify-content:space-between; font-family:var(--sans);
@@ -516,6 +563,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Work</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
       <!-- EDIT ME: point this at your actual resume file once it's in the project folder -->
@@ -527,45 +575,21 @@
 <div class="wrap">
 
   <header class="hero" id="hero" data-bg="final concept of drone new motor mounts.jpg">
-    <p class="eyebrow">Mechanical &amp; Robotics Engineering</p>
-    <h1 class="title">Armaan Jass<br><span class="line2">Mechanical / Robotics Engineer</span></h1>
-    <p class="hero-desc">
-      I design and build <strong>autonomous mechanical systems</strong> — from
-      structural and drivetrain design through controls integration and testing.
-      Recent focus: <strong>UAV airframes</strong> and
-      <strong>terrain-adaptive locomotion</strong>.
-    </p>
+    <h1 class="title">Armaan Jass</h1>
+    <p class="hero-sub">Mechanical Engineering — University of Guelph</p>
+    <p class="hero-interest"><span>Interest:</span> Robotics / Mechanical Engineering</p>
 
     <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View projects</a>
-      <a href="resume.pdf" class="btn btn-ghost" download>Download resume</a>
-    </div>
-
-    <!-- EDIT ME: swap these four cells for your own info -->
-    <div class="title-block">
-      <div class="tb-cell">
-        <div class="tb-label">Based in</div>
-        <div class="tb-value">Waterloo, ON</div>
-      </div>
-      <div class="tb-cell">
-        <div class="tb-label">Focus</div>
-        <div class="tb-value">Robotics / UAV</div>
-      </div>
-      <div class="tb-cell">
-        <div class="tb-label">Status</div>
-        <div class="tb-value">Open to work</div>
-      </div>
-      <div class="tb-cell">
-        <div class="tb-label">Year</div>
-        <div class="tb-value">3rd yr, Mech Eng</div>
-      </div>
+      <a href="#projects" class="btn btn-ghost">Projects</a>
+      <a href="#contact" class="btn btn-ghost">Contact</a>
+      <a href="#about" class="btn btn-ghost">About</a>
+      <a href="#experience" class="btn btn-ghost">Work Experience</a>
     </div>
   </header>
 
   <section id="about">
-    <div class="dim-divider">
-      <span class="dim-label">About</span>
-      <span class="rule"></span>
+    <div class="page-header">
+      <h2>About</h2>
     </div>
 
     <div class="about-grid">
@@ -609,19 +633,63 @@
         </div>
       </div>
     </div>
+
+    <!-- Staggered second row: extracurriculars text + a second photo underneath everything above -->
+    <div class="about-grid" style="margin-top:8px;">
+      <div>
+        <p>
+          Outside of engineering, soccer has been a constant — I've played for
+          most of my life and currently serve as team captain, staying closely
+          involved with the sport across Cambridge, Guelph, and Waterloo. In my
+          graduating year of high school, I was awarded the <strong>Colin Hood
+          Award</strong>, given to one student-athlete who shows real commitment
+          to both their schoolwork and their sport.
+        </p>
+        <p>
+          I've also played basketball, football, and ran track for a stretch —
+          but soccer and basketball have always been my two main sports. I won
+          the Coaches' Award for soccer three years running, made it to an
+          OFSAA final, and won a championship final in football.
+        </p>
+        <p>
+          For me, school comes first, then family, then sport — and soccer is
+          where that third priority lives. Staying committed across all three
+          is something I take seriously, on and off the field.
+        </p>
+      </div>
+
+      <div>
+        <!-- EDIT ME: upload a soccer photo (e.g. "soccer photo.jpg") to the
+             repo root and set its filename below to replace this placeholder -->
+        <div class="portrait-frame">
+          <span class="placeholder-note">Add a soccer photo filename here (EDIT ME)</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="projects" data-bg="final piping system dripline.jpg">
-    <div class="dim-divider">
-      <span class="dim-label">Selected projects &amp; experience</span>
-      <span class="rule"></span>
+    <div class="page-header">
+      <h2>Projects</h2>
+      <div class="page-subtitle">Mechanical and autonomous projects</div>
+      <p>Personal and school projects — this is how I built, documented, failed, and diagnosed each problem along the way.</p>
     </div>
 
-    <!-- Cards are built from the PROJECTS array near the bottom of this file.
-         Click a card (anywhere except its links) and it grows into a full
-         detail page using that project's own photo as the background —
-         see PROJECTS below to edit names, photos, galleries, video, specs. -->
+    <!-- Cards are built from the PROJECTS array near the bottom of this file
+         (filtered to category: 'project'). Click a card (anywhere except its
+         links) and it grows into a full detail page using that project's own
+         photo as the background — see PROJECTS below to edit names, photos,
+         galleries, video, specs. -->
     <div class="proj-list" id="projList"></div>
+  </section>
+
+  <section id="experience">
+    <div class="page-header">
+      <h2>Work Experience</h2>
+    </div>
+
+    <!-- Same PROJECTS array, filtered to category: 'experience'. -->
+    <div class="proj-list" id="workList"></div>
   </section>
 
   <section id="skills">
@@ -671,18 +739,51 @@
   </section>
 
   <footer id="contact">
-    <div class="dim-divider">
-      <span class="dim-label">Contact</span>
-      <span class="rule"></span>
+    <div class="page-header">
+      <h2>Contact</h2>
     </div>
 
-    <div class="contact-box">
-      <h2>Building something mechanical? Let's talk.</h2>
-      <!-- EDIT ME: your real contact info -->
-      <div class="contact-links">
-        <a href="mailto:armaan.jass@example.com">armaan.jass@example.com</a>
-        <a href="https://github.com/yourusername">github.com/yourusername</a>
-        <a href="https://linkedin.com/in/yourusername">linkedin.com/in/yourusername</a>
+    <p class="contact-avail">
+      Seeking a <strong>Fall 2026 / Winter 2027 co-op</strong> in robotics — anything mechanical,
+      mechatronics, or autonomy. I'm happy to discuss opportunities, so please feel free to reach out and connect.
+    </p>
+
+    <!-- EDIT ME: double-check the school email — I've used ajass@uoguelph.ca based on
+         typical first-initial + last-name format, but confirm the exact address. -->
+    <div class="contact-widgets">
+      <div class="contact-widget">
+        <div class="widget-label">Email</div>
+        <div class="widget-value"><a href="mailto:armaansjass@gmail.com">armaansjass@gmail.com</a></div>
+        <div class="widget-note">Any questions or ideas? Please get in touch by email.</div>
+      </div>
+      <div class="contact-widget">
+        <div class="widget-label">School Email</div>
+        <div class="widget-value"><a href="mailto:ajass@uoguelph.ca">ajass@uoguelph.ca</a></div>
+      </div>
+      <div class="contact-widget">
+        <div class="widget-label">LinkedIn</div>
+        <div class="widget-value"><a href="https://www.linkedin.com/in/armaanjass">linkedin.com/in/armaanjass</a></div>
+      </div>
+      <div class="contact-widget">
+        <div class="widget-label">Phone</div>
+        <div class="widget-value"><a href="tel:+16473277650">647-327-7650</a></div>
+      </div>
+    </div>
+
+    <div class="contact-detail">
+      <div class="detail-row"><b>Location:</b> Guelph, Ontario, Canada</div>
+      <div class="detail-row"><b>Focus areas:</b> Autonomous Software, Mechanical Systems, Robotic Systems, Systems Integration</div>
+    </div>
+
+    <!-- EDIT ME: upload resume.pdf to the repo root, and (optionally) a JPEG/PNG
+         preview image of its first page — set the preview filename below. -->
+    <div class="resume-preview">
+      <div class="resume-frame">
+        <span class="placeholder-note">Resume preview (EDIT ME: add a preview image filename, or leave blank)</span>
+      </div>
+      <div class="resume-actions">
+        <a href="resume.pdf" class="btn btn-primary" download>Download PDF</a>
+        <a href="resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Open in new tab</a>
       </div>
     </div>
 
@@ -842,6 +943,7 @@
   const PROJECTS = [
     {
       id: 'quadcopter',
+      category: 'project',
       num: 'PRJ—001',
       name: 'Quadcopter',
       tag: 'UAV · Flight-tested',
@@ -929,13 +1031,11 @@
           text: 'EDIT ME: space to write about MARK II.'
         }
       ],
-      links: [
-        { label: 'Write-up', href: '#' },
-        { label: 'CAD files', href: 'files/quadrotor-cad.zip' } // EDIT ME
-      ]
+      links: []
     },
     {
       id: 'gryphons-fsae',
+      category: 'project',
       num: 'PRJ—002',
       name: 'Gryphons Racing FSAE',
       tag: 'Motorsports · FSAE',
@@ -976,12 +1076,11 @@
           mediaSide: 'left'
         }
       ],
-      links: [
-        { label: 'Write-up', href: '#' }
-      ]
+      links: []
     },
     {
       id: 'design-project',
+      category: 'project',
       num: 'PRJ—003',
       name: 'Engineering Design Project',
       tag: 'Capstone · Design',
@@ -1050,14 +1149,13 @@
           item: { type: 'image', src: '', label: 'You and the team (EDIT ME: add filename)' }
         }
       ],
-      links: [
-        { label: 'Write-up', href: '#' }
-      ]
+      links: []
     },
     {
       id: 'angus-irrigation',
+      category: 'experience',
       num: 'EXP—001',
-      name: 'Angus Irrigation Technician',
+      name: 'Hydraulic/Electrical Technician',
       tag: 'Experience · Technician',
       cover: 'final piping system dripline.jpg',
       summary: 'Hands-on troubleshooting and installation across mechanical, electrical, and hydraulic irrigation systems.',
@@ -1125,6 +1223,7 @@
   // Render the collapsed cards from PROJECTS
   // ---------------------------------------------------------------------
   const projList = document.getElementById('projList');
+  const workList = document.getElementById('workList');
 
   function escapeHtml(str) {
     const d = document.createElement('div');
@@ -1147,6 +1246,7 @@
     const linkEls = p.links
       .map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`)
       .join('');
+    const linksHtml = linkEls ? `<div class="proj-links" style="padding:0 20px 20px;">${linkEls}</div>` : '';
 
     card.innerHTML = `
       <div class="proj-photo" style="background-image:url('${p.cover}');">
@@ -1163,11 +1263,11 @@
         <p>${escapeHtml(p.summary)}</p>
         <div class="spec-table">${specRows}</div>
       </div>
-      <div class="proj-links" style="padding:0 20px 20px;">${linkEls}</div>
+      ${linksHtml}
     `;
 
     card.addEventListener('click', (e) => {
-      if (e.target.closest('a')) return; // let real links (CAD files etc.) behave normally
+      if (e.target.closest('a')) return; // let real links behave normally
       location.hash = 'project-' + p.id;
     });
     card.addEventListener('keydown', (e) => {
@@ -1177,7 +1277,8 @@
       }
     });
 
-    projList.appendChild(card);
+    const targetList = p.category === 'experience' ? workList : projList;
+    if (targetList) targetList.appendChild(card);
   });
 
   // ---------------------------------------------------------------------
@@ -1355,9 +1456,11 @@
       }
     }
 
-    document.getElementById('overlayLinks').innerHTML = project.links
+    const overlayLinksEl = document.getElementById('overlayLinks');
+    overlayLinksEl.innerHTML = project.links
       .map((l) => `<a href="${escapeHtml(l.href)}">${escapeHtml(l.label)}</a>`)
       .join('');
+    overlayLinksEl.style.display = project.links.length ? '' : 'none';
 
     document.querySelector('.overlay-scroll').scrollTop = 0;
     document.body.style.overflow = 'hidden';
