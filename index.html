@@ -337,6 +337,7 @@
   .proj-overlay{
     position:fixed; z-index:200; overflow:hidden;
     border-radius:12px;
+    background:var(--bg);
     visibility:hidden;
     transition:top 0.55s cubic-bezier(.22,.61,.36,1), left 0.55s cubic-bezier(.22,.61,.36,1),
                width 0.55s cubic-bezier(.22,.61,.36,1), height 0.55s cubic-bezier(.22,.61,.36,1),
@@ -397,6 +398,55 @@
     transition:background 0.15s ease;
   }
   .overlay-links a:hover{background:#79c1e5;}
+
+  /* ---------- FLEXIBLE CONTENT BLOCKS (per-project custom sections) ---------- */
+  .block{margin-bottom:46px;}
+  .block-title{font-family:var(--display); font-weight:600; font-size:19px; color:var(--text); margin-bottom:16px;}
+  .block-text p{color:var(--text-muted); font-size:15.5px; max-width:70ch; white-space:pre-line;}
+  .block-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .block-media-text{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;}
+  .block-grid{display:flex; flex-wrap:wrap; gap:16px;}
+  .block-grid .media-widget{flex:1 1 260px;}
+  .block-caption{margin-top:14px; color:var(--text-muted); font-size:14.5px; max-width:70ch; white-space:pre-line;}
+  .block-text-panel{
+    background:rgba(17,23,28,0.55); border:1px solid var(--border-soft); border-radius:10px;
+    padding:22px; display:flex; align-items:center; min-height:100%;
+  }
+  .block-text-panel p{color:var(--text-muted); font-size:15px; white-space:pre-line;}
+  .media-widget{
+    position:relative; border-radius:10px; overflow:hidden;
+    border:1px solid var(--border-soft); background:#0F151A;
+    aspect-ratio:4/3;
+  }
+  .media-widget.is-video{aspect-ratio:16/9;}
+  .media-widget img, .media-widget video, .media-widget iframe{
+    width:100%; height:100%; object-fit:cover; display:block; border:none;
+  }
+  .media-placeholder{
+    position:absolute; inset:6px; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:14px; font-family:var(--sans); font-size:12px; color:var(--text-dim);
+    border:1px dashed var(--border); border-radius:6px;
+  }
+  @media (max-width:720px){
+    .block-pair{grid-template-columns:1fr;}
+    .block-media-text{grid-template-columns:1fr;}
+  }
+  .block-media-full{width:100%;}
+  .media-item{display:flex; flex-direction:column;}
+  .media-caption{
+    margin-top:8px; font-family:var(--sans); font-size:12.5px; font-weight:600;
+    color:var(--text-dim); text-align:center;
+  }
+  .text-panel-centered{
+    max-width:640px; margin:0 auto; text-align:center;
+    background:rgba(17,23,28,0.55); border:1px solid var(--border-soft);
+    border-radius:12px; padding:28px 32px;
+  }
+  .text-panel-centered .block-title{text-align:center;}
+  .text-panel-centered p{color:var(--text-muted); font-size:15px; white-space:pre-line; text-align:left;}
+  .triptych-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
+  .triptych-center{max-width:360px; margin:0 auto;}
+  @media (max-width:600px){ .triptych-row{grid-template-columns:1fr;} }
 
   /* ---------- SKILLS ---------- */
   .skill-grid{
@@ -650,6 +700,7 @@
       <span class="overlay-tag" id="overlayTag"></span>
       <p class="overlay-desc" id="overlayDesc"></p>
       <div class="overlay-specs" id="overlaySpecs"></div>
+      <div class="overlay-blocks" id="overlayBlocks"></div>
       <div id="overlayGallerySection">
         <div class="overlay-section-label">Photos</div>
         <div class="overlay-gallery" id="overlayGallery"></div>
@@ -798,12 +849,58 @@
         { k: 'Tools', v: 'SolidWorks, ANSYS' }
       ],
       // EDIT ME: swap in whichever of your uploaded photos belong here
-      gallery: [
-        'carbon fibre tubes and motor layout.jpg',
-        'pixhawk mount to base.jpg',
-        'final concept of drone new motor mounts.jpg'
+      gallery: [],
+      video: null,
+      // Custom sections for this project's detail page, top to bottom.
+      // See the renderMediaWidget/renderBlocks functions below for how
+      // each block type works. Fill in "src" once you've uploaded the
+      // matching photo/video with the same filename shown as "label".
+      blocks: [
+        {
+          type: 'pair',
+          title: 'Flight footage',
+          items: [
+            { type: 'video', src: '', label: 'Drone flying — video (EDIT ME: add your video filename)' },
+            { type: 'image', src: 'drone in air.jpg', label: 'Drone — static shot' }
+          ]
+        },
+        {
+          type: 'text',
+          title: 'Troubleshooting / Prototype',
+          text: 'EDIT ME: add a short paragraph here about the troubleshooting and prototyping phase — what went wrong first, and what you learned from it.'
+        },
+        {
+          type: 'pair',
+          title: 'Motor mounts',
+          items: [
+            { type: 'image', src: '', label: 'Old motor mounts (EDIT ME: likely "prototype concept of drone old motor mounts.jpg" — double check the exact filename on GitHub)' },
+            { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'New motor mounts' }
+          ],
+          caption: 'EDIT ME: explain why the motor mounts changed and what the new design does differently.'
+        },
+        {
+          type: 'pair',
+          title: 'Airframe',
+          items: [
+            { type: 'image', src: '', label: 'Old frame (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'New frame (EDIT ME: add filename)' }
+          ],
+          caption: 'EDIT ME: explain why the frame/material changed.'
+        },
+        {
+          type: 'grid',
+          title: 'Build process',
+          items: [
+            { type: 'video', src: '', label: '3D printing timelapse (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'You and the team (EDIT ME: add filename)' },
+            { type: 'video', src: '', label: 'Flight video (EDIT ME: add filename)' }
+          ]
+        },
+        {
+          type: 'text',
+          text: 'EDIT ME: add a closing note here — final thoughts, what you\'d do differently next time, or what you learned overall.'
+        }
       ],
-      video: null, // EDIT ME: e.g. { src: 'quadcopter-flight.mp4' }
       links: [
         { label: 'Write-up', href: '#' },
         { label: 'CAD files', href: 'files/quadrotor-cad.zip' } // EDIT ME
@@ -815,17 +912,46 @@
       name: 'Gryphons Racing FSAE',
       tag: 'Motorsports · FSAE',
       cover: 'fsae-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
-      summary: 'Formula SAE team \u2014 add a short summary of your role and scope here.',
+      summary: 'Formula SAE team — add a short summary of your role and scope here.',
       description:
-        'EDIT ME: describe your role on Gryphons Racing FSAE \u2014 what subsystem you owned (chassis, suspension, aero, powertrain, etc.), what you designed or machined, and any results (competition placing, weight/performance gains, testing you ran).',
+        'EDIT ME: why you joined Gryphons Racing FSAE and what you did on the team — give the short version here, then use the sections below for the specifics.',
       specs: [
-        { k: 'Team', v: 'Gryphons Racing FSAE' }, // EDIT ME
+        { k: 'Team', v: 'Gryphons Racing FSAE' },
         { k: 'Role', v: 'Add your role' },
         { k: 'Subsystem', v: 'Add your focus area' },
         { k: 'Tools', v: 'Add your tools' }
       ],
-      gallery: [], // EDIT ME: add your FSAE photo filenames here
-      video: null, // EDIT ME
+      gallery: [],
+      video: null,
+      blocks: [
+        {
+          type: 'mediaText',
+          title: 'Simulation',
+          media: { type: 'image', src: '', label: 'STAR-CCM+ airfoil simulation screenshot (EDIT ME: add filename)' },
+          text: 'EDIT ME: describe the STAR-CCM+ airfoil simulation work — what you were simulating, the steps you took, and what the results showed.',
+          mediaSide: 'left'
+        },
+        {
+          type: 'mediaText',
+          title: 'Mechanical — Throttle body',
+          media: { type: 'video', src: '', label: 'Throttle body testing clip, ~10s (EDIT ME: add filename)' },
+          text: 'EDIT ME: why you decided to make the throttle body, why it was needed, and how you made it.',
+          mediaSide: 'left'
+        },
+        // EDIT ME: these two are placeholders — swap the title, photo and text
+        // for whatever you actually want to show for the throttle body build
+        // (machining process, final assembly, testing setup, etc.)
+        {
+          type: 'media',
+          title: 'EDIT ME: section title',
+          item: { type: 'image', src: '', label: 'EDIT ME: add a photo + rename this section' }
+        },
+        {
+          type: 'media',
+          title: 'EDIT ME: section title',
+          item: { type: 'image', src: '', label: 'EDIT ME: add a photo + rename this section' }
+        }
+      ],
       links: [
         { label: 'Write-up', href: '#' }
       ]
@@ -835,18 +961,67 @@
       num: 'PRJ—003',
       name: 'Engineering Design Project',
       tag: 'Capstone · Design',
-      cover: 'design-project-cover.jpg', // EDIT ME
-      summary: 'Add a short summary of this design project here.',
+      cover: 'design-project-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
+      summary: 'A 3D reverse-engineering project — designing and manufacturing 50+ parts as a team of six.',
       description:
-        'EDIT ME: describe the brief, what problem it solved, your specific contribution, and the outcome \u2014 treat it like the short version of a resume bullet, expanded into a couple of sentences.',
+        'A 3D reverse-engineering project. Working from a reference design, our team of six reverse-engineered and manufactured a full working model from the ground up.',
       specs: [
-        { k: 'Scope', v: 'Add scope' },
-        { k: 'Role', v: 'Add your role' },
-        { k: 'Timeline', v: 'Add duration' },
-        { k: 'Tools', v: 'Add your tools' }
+        { k: 'Scope', v: 'Add scope' }, // EDIT ME
+        { k: 'Role', v: 'Add your role' }, // EDIT ME
+        { k: 'Timeline', v: 'Add duration' }, // EDIT ME
+        { k: 'Tools', v: 'Add your tools' } // EDIT ME
       ],
-      gallery: [], // EDIT ME
-      video: null, // EDIT ME
+      gallery: [],
+      video: null,
+      blocks: [
+        {
+          type: 'media',
+          item: { type: 'video', src: '', label: 'The finished build — video (EDIT ME: add your video filename)' }
+        },
+        {
+          type: 'textPanel',
+          text:
+            'Our group of six was split up so each person was responsible for six required parts. I ended up designing 13 parts in total, including the most advanced components, which I also converted into formal 2D engineering drawings — I completed 3 of these and scored higher than 90% on them.\n\nThe full project ran more than two and a half months and produced over 50 parts in total, and the final build performed well overall.'
+        },
+        {
+          type: 'triptych',
+          title: 'Solar Roof',
+          items: [
+            { type: 'image', src: '', label: 'Solar roof — photo 1 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Solar roof — photo 2 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Solar roof — photo 3 (EDIT ME: add filename)' }
+          ]
+        },
+        {
+          type: 'triptych',
+          title: 'Rover Wheel',
+          items: [
+            { type: 'image', src: '', label: 'Rover wheel — photo 1 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 2 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 3 (EDIT ME: add filename)' }
+          ]
+        },
+        {
+          type: 'grid',
+          columns: 2,
+          items: [
+            { type: 'image', src: '', label: 'Rover wheel — photo 4 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 5 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 6 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 7 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 8 (EDIT ME: add filename)' },
+            { type: 'image', src: '', label: 'Rover wheel — photo 9 (EDIT ME: add filename)' }
+          ]
+        },
+        {
+          type: 'media',
+          item: { type: 'image', src: '', label: 'The finished build (EDIT ME: add filename)' }
+        },
+        {
+          type: 'media',
+          item: { type: 'image', src: '', label: 'You and the team (EDIT ME: add filename)' }
+        }
+      ],
       links: [
         { label: 'Write-up', href: '#' }
       ]
@@ -859,17 +1034,58 @@
       cover: 'final piping system dripline.jpg',
       summary: 'Hands-on troubleshooting and installation across mechanical, electrical, and hydraulic irrigation systems.',
       description:
-        'Hands-on experience troubleshooting and installing irrigation systems \u2014 real exposure to mechanical, electrical, and hydraulic systems working outside of a CAD screen.\n\nEDIT ME: add specifics \u2014 the kinds of systems you worked on, a problem you diagnosed and fixed, and roughly how long you worked there.',
+        'Hands-on experience troubleshooting and installing irrigation systems \u2014 real exposure to mechanical, electrical, and hydraulic systems working outside of a CAD screen.',
       specs: [
         { k: 'Role', v: 'Irrigation Technician' },
         { k: 'Systems', v: 'Mechanical / Electrical / Hydraulic' },
         { k: 'Focus', v: 'Installation & troubleshooting' }
       ],
-      gallery: [
-        'messy wires.jpg',
-        'tidy and clean wires.jpg'
-      ],
+      gallery: [],
       video: null,
+      blocks: [
+        {
+          type: 'media',
+          item: { type: 'video', src: '', label: 'Sprinkler system running \u2014 video (EDIT ME: add your video filename)' }
+        },
+        {
+          type: 'text',
+          title: 'Co-op',
+          text: 'EDIT ME: add how long you worked here (it was a co-op), what you learned overall, and how troubleshooting was the main focus of the role.'
+        },
+        {
+          type: 'text',
+          title: 'On the Job',
+          text: 'EDIT ME: add what you picked up about being a technician day to day \u2014 the kind of problems you\u2019d walk into and how you worked through them.'
+        },
+        {
+          type: 'pair',
+          items: [
+            { type: 'image', src: 'messy wires.jpg', label: 'Before', caption: 'Before' },
+            { type: 'image', src: 'tidy and clean wires.jpg', label: 'After', caption: 'After' }
+          ]
+        },
+        {
+          type: 'pair',
+          title: 'Piping Systems',
+          items: [
+            { type: 'image', src: '', label: 'Digging out the old piping (EDIT ME: add filename)', caption: 'Before' },
+            { type: 'image', src: '', label: 'Finished piping (EDIT ME: add filename)', caption: 'After' }
+          ]
+        },
+        {
+          type: 'media',
+          item: { type: 'image', src: '', label: 'Commercial site \u2014 finished job (EDIT ME: add filename)' }
+        },
+        {
+          type: 'text',
+          title: 'Looking back',
+          text: 'EDIT ME: add what you learned overall from this role.'
+        },
+        {
+          type: 'media',
+          item: { type: 'video', src: '', label: 'Optional closing video (EDIT ME: add a filename, or delete this whole block if you don\u2019t want one)' }
+        }
+      ],
       links: []
     }
   ];
@@ -958,6 +1174,83 @@
     el.style.height = rect.height + 'px';
   }
 
+  // ---------------------------------------------------------------------
+  // Flexible content blocks — lets each project define its own custom
+  // sections (a write-up, a video+photo pair, an old-vs-new photo
+  // comparison, a media grid, etc.) instead of one fixed layout.
+  //
+  // Each item passed to renderMediaWidget is: { type: 'image'|'video'|'embed', src, label }
+  //   - type 'image': src is a photo filename
+  //   - type 'video': src is a video filename (shows native controls)
+  //   - type 'embed': src is a YouTube/Vimeo embed URL
+  //   - if src is left empty (''), a dashed placeholder shows instead,
+  //     using "label" to describe what should go there — fill in src
+  //     later once you've uploaded the file.
+  // ---------------------------------------------------------------------
+  function renderMediaWidget(item) {
+    if (!item) return '';
+    const isVideo = item.type === 'video' || item.type === 'embed';
+    const cls = 'media-widget' + (isVideo ? ' is-video' : '');
+    if (item.type === 'image' && item.src) {
+      return `<div class="${cls}"><img src="${item.src}" alt="${escapeHtml(item.label || '')}" loading="lazy"></div>`;
+    }
+    if (item.type === 'video' && item.src) {
+      return `<div class="${cls}"><video src="${item.src}" controls playsinline></video></div>`;
+    }
+    if (item.type === 'embed' && item.src) {
+      return `<div class="${cls}"><iframe src="${item.src}" title="${escapeHtml(item.label || '')}" allowfullscreen></iframe></div>`;
+    }
+    return `<div class="${cls}"><div class="media-placeholder">${escapeHtml(item.label || 'Add a photo or video here')}</div></div>`;
+  }
+
+  // Wraps a media widget with its own small caption underneath, e.g. "Before" / "After".
+  function renderItem(item) {
+    if (!item) return '';
+    const caption = item.caption ? `<div class="media-caption">${escapeHtml(item.caption)}</div>` : '';
+    return `<div class="media-item">${renderMediaWidget(item)}${caption}</div>`;
+  }
+
+  function renderBlocks(blocks) {
+    return blocks.map((b) => {
+      const titleHtml = b.title ? `<div class="block-title">${escapeHtml(b.title)}</div>` : '';
+      const caption = b.caption ? `<p class="block-caption">${escapeHtml(b.caption)}</p>` : '';
+
+      if (b.type === 'text') {
+        return `<div class="block block-text">${titleHtml}<p>${escapeHtml(b.text)}</p></div>`;
+      }
+      // A single full-width photo or video (e.g. one big demo video, or one final "finished shot").
+      if (b.type === 'media') {
+        return `<div class="block">${titleHtml}<div class="block-media-full">${renderItem(b.item)}</div>${caption}</div>`;
+      }
+      // A centered write-up box, narrower than full width, for a stats/summary style callout.
+      if (b.type === 'textPanel') {
+        return `<div class="block"><div class="text-panel-centered">${titleHtml}<p>${escapeHtml(b.text)}</p></div></div>`;
+      }
+      if (b.type === 'pair') {
+        const widgets = b.items.map(renderItem).join('');
+        return `<div class="block">${titleHtml}<div class="block-pair">${widgets}</div>${caption}</div>`;
+      }
+      if (b.type === 'mediaText') {
+        const mediaHtml = renderItem(b.media);
+        const textHtml = `<div class="block-text-panel"><p>${escapeHtml(b.text)}</p></div>`;
+        const parts = b.mediaSide === 'right' ? [textHtml, mediaHtml] : [mediaHtml, textHtml];
+        return `<div class="block">${titleHtml}<div class="block-media-text">${parts.join('')}</div></div>`;
+      }
+      // Three photos: first two side by side, third centered underneath — e.g. "Solar Roof" or "Rover Wheel".
+      if (b.type === 'triptych') {
+        const row = `${renderItem(b.items[0])}${renderItem(b.items[1])}`;
+        const center = renderItem(b.items[2]);
+        return `<div class="block">${titleHtml}<div class="triptych-row">${row}</div><div class="triptych-center">${center}</div>${caption}</div>`;
+      }
+      if (b.type === 'grid') {
+        const widgets = b.items.map(renderItem).join('');
+        const colStyle = b.columns ? ` style="display:grid;grid-template-columns:repeat(${b.columns}, 1fr);gap:16px;"` : '';
+        return `<div class="block">${titleHtml}<div class="block-grid"${colStyle}>${widgets}</div>${caption}</div>`;
+      }
+      return '';
+    }).join('');
+  }
+
   function openProject(id) {
     const project = PROJECTS.find((p) => p.id === id);
     if (!project) return;
@@ -975,8 +1268,8 @@
     requestAnimationFrame(() => {
       overlay.style.top = '0px';
       overlay.style.left = '0px';
-      overlay.style.width = '100vw';
-      overlay.style.height = '100vh';
+      overlay.style.width = window.innerWidth + 'px';
+      overlay.style.height = window.innerHeight + 'px';
       overlay.style.borderRadius = '0px';
       overlay.classList.add('open');
     });
@@ -991,27 +1284,37 @@
       .map((s) => `<div class="spec-cell"><div class="k">${escapeHtml(s.k)}</div><div class="v">${escapeHtml(s.v)}</div></div>`)
       .join('');
 
+    const overlayBlocks = document.getElementById('overlayBlocks');
     const gallerySection = document.getElementById('overlayGallerySection');
-    if (project.gallery && project.gallery.length) {
-      gallerySection.style.display = '';
-      document.getElementById('overlayGallery').innerHTML = project.gallery
-        .map((src) => `<img src="${src}" alt="${escapeHtml(project.name)} photo" loading="lazy">`)
-        .join('');
-    } else {
-      gallerySection.style.display = 'none';
-    }
-
     const videoSection = document.getElementById('overlayVideoSection');
-    if (project.video && project.video.src) {
-      videoSection.style.display = '';
-      document.getElementById('overlayVideo').innerHTML =
-        `<video src="${project.video.src}" controls playsinline></video>`;
-    } else if (project.video && project.video.embed) {
-      videoSection.style.display = '';
-      document.getElementById('overlayVideo').innerHTML =
-        `<iframe src="${project.video.embed}" title="${escapeHtml(project.name)} video" frameborder="0" allowfullscreen></iframe>`;
-    } else {
+
+    if (project.blocks && project.blocks.length) {
+      overlayBlocks.style.display = '';
+      overlayBlocks.innerHTML = renderBlocks(project.blocks);
+      gallerySection.style.display = 'none';
       videoSection.style.display = 'none';
+    } else {
+      overlayBlocks.style.display = 'none';
+      overlayBlocks.innerHTML = '';
+
+      if (project.gallery && project.gallery.length) {
+        gallerySection.style.display = '';
+        gallerySection.innerHTML = `<div class="overlay-section-label">Photos</div><div class="overlay-gallery" id="overlayGallery">${
+          project.gallery.map((src) => `<img src="${src}" alt="${escapeHtml(project.name)} photo" loading="lazy">`).join('')
+        }</div>`;
+      } else {
+        gallerySection.style.display = 'none';
+      }
+
+      if (project.video && project.video.src) {
+        videoSection.style.display = '';
+        videoSection.innerHTML = `<div class="overlay-section-label">Video</div><div class="overlay-video"><video src="${project.video.src}" controls playsinline></video></div>`;
+      } else if (project.video && project.video.embed) {
+        videoSection.style.display = '';
+        videoSection.innerHTML = `<div class="overlay-section-label">Video</div><div class="overlay-video"><iframe src="${project.video.embed}" title="${escapeHtml(project.name)} video" allowfullscreen></iframe></div>`;
+      } else {
+        videoSection.style.display = 'none';
+      }
     }
 
     document.getElementById('overlayLinks').innerHTML = project.links
@@ -1053,6 +1356,12 @@
   window.addEventListener('hashchange', syncFromHash);
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && currentProjectId) history.back();
+  });
+  window.addEventListener('resize', () => {
+    if (currentProjectId) {
+      overlay.style.width = window.innerWidth + 'px';
+      overlay.style.height = window.innerHeight + 'px';
+    }
   });
   syncFromHash();
 </script>
