@@ -95,7 +95,7 @@
     background-size:cover;
     background-position:center;
     opacity:0;
-    filter:brightness(1.1) saturate(1.05) contrast(1.02);
+    filter:brightness(0.55) saturate(0.7) contrast(1.0);
     transition:opacity 1.4s ease;
     will-change:opacity, transform;
   }
@@ -106,7 +106,7 @@
        Lower the numbers (0.0–1.0) to show more of the photo,
        raise them to darken it for text readability. */
     background:
-      linear-gradient(180deg, rgba(11,15,18,0.55) 0%, rgba(11,15,18,0.35) 40%, rgba(11,15,18,0.55) 100%);
+      linear-gradient(180deg, rgba(11,15,18,0.88) 0%, rgba(11,15,18,0.8) 40%, rgba(11,15,18,0.9) 100%);
   }
 
   /* ---------- NAV ---------- */
@@ -190,7 +190,9 @@
   .scroll-hint:hover{color:var(--accent);}
   .scroll-hint svg{animation:bounce 1.8s ease-in-out infinite;}
   @keyframes bounce{0%,100%{transform:translateY(0);} 50%{transform:translateY(4px);}}
-  header.hero{min-height:calc(100vh - 68px); display:flex; flex-direction:column; justify-content:center;}
+  header.hero{min-height:calc(100vh - 68px); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;}
+  header.hero .hero-actions{justify-content:center;}
+  header.hero h1.title{max-width:none;}
   #resume-mini{padding:80px 0 40px; scroll-margin-top:24px;}
 
   /* ---------- FULL-SCREEN SITE PAGES (About / Projects / Work / Contact) ---------- */
@@ -935,11 +937,16 @@
   })();
 
   // ===========================================================================
-  // Smooth, offset-aware in-page navigation (accounts for the sticky nav bar)
+  // Smooth, offset-aware in-page navigation (accounts for the sticky nav bar).
+  // Page-route links (#about, #projects, #experience, #contact, and plain #
+  // for home) are excluded here — those need a real hash change so the page
+  // router below can see them via the hashchange event.
   // ===========================================================================
+  const ROUTE_IDS = ['about', 'projects', 'experience', 'contact'];
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (e) => {
       const id = link.getAttribute('href').slice(1);
+      if (id === '' || ROUTE_IDS.includes(id)) return; // let the router handle it
       const target = document.getElementById(id);
       if (!target) return;
       e.preventDefault();
