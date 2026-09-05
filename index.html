@@ -111,7 +111,7 @@
 
   /* ---------- NAV ---------- */
   nav{
-    position:sticky; top:0; z-index:50;
+    position:sticky; top:0; z-index:160;
     background:rgba(11,15,18,0.82);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
@@ -987,16 +987,14 @@
       name: 'Quadcopter',
       tag: 'UAV · Flight-tested',
       cover: 'drone in air.jpg',
-      summary: 'Ground-up carbon-fiber quadrotor airframe designed for payload delivery in constrained environments.',
-      description:
-        'Ground-up carbon-fiber quadrotor airframe designed for payload delivery in constrained environments. Owned structural design, propulsion sizing, and mechanical integration of the flight controller, ESCs, and companion computer.\n\nIterated through three airframe revisions to cut structural weight by 22% while holding stiffness targets under FEA.',
+      summary: 'A custom-built autonomous drone designed as a modular platform for future tool payloads.',
+      description: 'A custom-built autonomous drone designed as a modular platform for future tool payloads.',
       specs: [
         { k: 'Frame', v: '480mm, carbon fiber' },
         { k: 'MTOW', v: '2.1 kg' },
         { k: 'Payload', v: '600 g' },
         { k: 'Tools', v: 'SolidWorks, ANSYS' }
       ],
-      // EDIT ME: swap in whichever of your uploaded photos belong here
       gallery: [],
       video: null,
       // Custom sections for this project's detail page, top to bottom.
@@ -1009,32 +1007,43 @@
           item: { type: 'video', src: 'Drone flying video.mp4', label: 'Drone flying video' }
         },
         {
+          type: 'text',
+          text:
+            'The main goal behind this project was to build an autonomous, self-swappable, multi-tool drone controlled through an app or controller. The idea was for the drone to take on different jobs depending on the tool payload attached — drilling holes, planting trees, or running in a surveillance mode while camping, for example mapping an area and identifying fire-safe routes. The potential applications are broad, and we\u2019re seeing more autonomous systems built for similar purposes every day. We weren\u2019t the first to have this idea, but we believed in its potential impact enough to keep developing it.\n\nDuring the summer of 2026, a three-person team began building this drone from scratch. My contributions focused on CAD design, manufacturing, machining, and simulation troubleshooting. Below are the videos, photos, and write-ups documenting the development process from my perspective.'
+        },
+        {
           type: 'pair',
           title: '3D Printing',
           items: [
-            { type: 'video', src: '', label: '3D printing — video 1 (EDIT ME: not uploaded yet)' },
-            { type: 'video', src: '', label: '3D printing — video 2 (EDIT ME: not uploaded yet)' }
+            { type: 'video', src: '3d printing lapse video left.mp4', label: '3D Printing — Left' },
+            { type: 'video', src: '3d printing lapse video right.mp4', label: '3D Printing — Right' }
           ]
+        },
+        {
+          type: 'text',
+          text:
+            'Left: Originally, the drone\u2019s components were printed in PLA. After our first test, disassembling the middle frame caused warping around the joints and small cracks forming around the heat-set inserts. We reprinted the components in PA6-CF (carbon-fibre-reinforced nylon) instead, which cut the printed frame\u2019s weight by roughly 8% compared to PLA while improving stiffness and heat resistance — resolving the warping and cracking we\u2019d seen in testing.\n\nRight: The motor mounts were designed to match the bolt pattern and geometry of the T-Motor 2812 motors, letting them sit securely, stay parallel to the ground, and remain properly aligned with the airframe.'
         },
         {
           type: 'pair',
           title: 'MARK ONE Motor Mounts',
           items: [
-            { type: 'video', src: '', label: 'CAD file — old motor mount (EDIT ME: not uploaded yet)' },
-            { type: 'image', src: 'carbon fibre tubes and motor layout.jpg', label: 'Carbon fibre tubes and motor layout' }
+            { type: 'video', src: 'old motor mounts cad file video.mp4', label: 'CAD file — old motor mount' },
+            { type: 'video', src: 'Old motor mounts video.mp4', label: 'Old motor mounts' }
           ]
+        },
+        {
+          type: 'text',
+          text:
+            'After the first motor mount design, screwing the motors in from underneath was tight and time-consuming — there just wasn\u2019t enough clearance to work with. We redesigned the mount to open up more room to reach those screws.\n\nWe were also seeing repeated stress cracks in testing with the original mounts. Tolerances were tight, but any flex let the propellers clip the mounts themselves, so we reduced the mount height and opened up more clearance around the screws — mainly a fix for accessibility and durability.\n\nWe also switched the print material from PLA to PA6, which is significantly stronger and let us cut roughly 8% of the weight anywhere PLA had previously been used.'
         },
         {
           type: 'pair',
           title: 'MARK TWO Motor Mounts',
           items: [
-            { type: 'video', src: '', label: 'CAD file — new motor mount (EDIT ME: not uploaded yet)' },
+            { type: 'video', src: 'new motor mounts cad file video.mp4', label: 'CAD file — new motor mount' },
             { type: 'image', src: 'final concept of drone new motor mounts.jpg', label: 'Final concept — new motor mounts' }
           ]
-        },
-        {
-          type: 'text',
-          text: 'EDIT ME: why we had to change the motor mounts.'
         },
         {
           type: 'pair',
@@ -1049,13 +1058,30 @@
           text: 'EDIT ME: why we changed the frame/materials.'
         },
         {
-          type: 'stackPair',
-          title: 'MARK I',
-          left: {
-            media: { type: 'image', src: '', label: 'final concept of drone old motor mounts (EDIT ME: photo not uploaded yet)' },
-            text: 'EDIT ME: a couple sentences about MARK I.'
-          },
-          right: { type: 'video', src: 'prototype drone.mp4', label: 'Prototype drone' }
+          type: 'mediaText',
+          title: 'MARK I Drone',
+          media: { type: 'video', src: 'prototype drone.mp4', label: 'Prototype drone' },
+          text:
+            'After the first flight test, we ran into a handful of issues: the motors seemed to be spinning at different rates, and the drone was too heavy for the thrust the propellers were producing — it wasn\u2019t gaining any height and we couldn\u2019t immediately tell why. As a last resort, we even checked whether the propellers were mounted upside down. It turned out the real fix was upgrading to a 6S battery.',
+          mediaSide: 'right'
+        },
+        {
+          type: 'text',
+          title: 'Motor Testing',
+          text:
+            'After flight-testing the MARK I prototype, we noticed — both in the video and in testing — that some motors appeared to be spinning faster than others. To dig into this, we ran simulations to generate response curves for each motor.'
+        },
+        {
+          type: 'pair',
+          items: [
+            { type: 'image', src: 'out of sync motor tests.jpg', label: 'Motor response — before' },
+            { type: 'image', src: 'in sync motor tests.png', label: 'Motor response — after' }
+          ]
+        },
+        {
+          type: 'text',
+          text:
+            'The graph on the left shows all four motors — each a different coloured signal — receiving different amounts of voltage, which resulted in different motor speeds. Based on this, instead of buying differently KV-rated motors as we\u2019d originally considered, we determined the issue could be solved by increasing battery voltage. We upgraded from a 4S to a 6S LiPo battery and reran the simulation, shown on the right — the response curves came back synchronized, confirming the higher-voltage battery resolved the mismatch.'
         },
         {
           type: 'pair',
@@ -1067,7 +1093,8 @@
         },
         {
           type: 'text',
-          text: 'EDIT ME: space to write about MARK II.'
+          text:
+            'MARK II flies on full GPS. EDIT ME: colleague\u2019s name handled the simulation testing, so it\u2019s capable of autonomous flight, though so far I\u2019ve only run controller testing myself.\n\nAfter all these adjustments, the drone finally lifted off — this is the first successful flight, recorded above. The weight reduction from switching to PA6 came out to more than 8%, and the 6S battery finally gave every motor enough voltage to spin in sync, which was enough to get it off the ground.\n\nPassing this flight test and starting to build what I hope becomes a larger system taught me a lot about troubleshooting — through simulation, testing, and plain trial and error. More than anything, it taught me how to approach engineering problems from multiple angles: when we hit a failure, we learned from it and tried again, and when we weren\u2019t sure of the cause, we researched, explored different approaches, and tested multiple solutions rather than betting everything on one fix.'
         }
       ],
       links: []
@@ -1078,10 +1105,10 @@
       num: 'PRJ—002',
       name: 'Gryphons Racing FSAE',
       tag: 'Motorsports · FSAE',
-      cover: 'fsae-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
-      summary: 'Formula SAE team — add a short summary of your role and scope here.',
+      cover: 'background for gryphons racing project.jpg',
+      summary: 'Reverse-engineered and built a mechanical throttle body as a backup for the team\u2019s electrical system.',
       description:
-        'EDIT ME: why you joined Gryphons Racing FSAE and what you did on the team — give the short version here, then use the sections below for the specifics.',
+        'I joined Gryphons Racing in 2024 to work alongside other creative engineers and gain more opportunities to develop my engineering skills — recently reverse-engineering and building a mechanical throttle body as a backup for our electrical system.',
       specs: [
         { k: 'Team', v: 'Gryphons Racing FSAE' },
         { k: 'Role', v: 'Add your role' },
@@ -1091,6 +1118,11 @@
       gallery: [],
       video: null,
       blocks: [
+        {
+          type: 'text',
+          text:
+            'I joined Gryphons Racing in 2024 mainly to meet other creative engineers and get more opportunities to learn and develop my engineering skills. Recently, I worked with a teammate to source a mechanical throttle body online and recreate it through reverse engineering in SolidWorks, modifying the design to fit our specified intake manifold.\n\nOriginally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
+        },
         {
           type: 'mediaText',
           title: 'Simulation',
@@ -1105,7 +1137,15 @@
         },
         {
           type: 'text',
-          text: 'EDIT ME: write about the CAD file / design process here.'
+          title: 'Design Process',
+          text:
+            'The design process focused on recreating the diameter and geometry of the butterfly valve while matching the bolt-hole pattern required for our intake manifold — keeping the functionality of a mechanical throttle body while staying as close as possible to the shape and dimensions of our existing electrical one.\n\nBy keeping the same mounting points and overall envelope, we could quickly install or remove the mechanical throttle body without needing significant changes to the intake system.\n\nWe also had to consider whether the 3D-printed material would hold up in an environment surrounded by constant heat — we expected excessive temperatures could cause it to warp. Since the air intake operates below the material\u2019s warping temperature, though, 3D printing turned out to be a suitable option.\n\nAs an added safety measure, the design was reviewed by multiple senior leads on the team to confirm the material and design were appropriate. The throttle body successfully passed tech inspection at FSAE.'
+        },
+        {
+          // EDIT ME: double-check this filename — it was cut off in the GitHub file list
+          type: 'media',
+          title: 'Throttle Body — Half View',
+          item: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' }
         },
         {
           type: 'mediaText',
@@ -1113,6 +1153,11 @@
           media: { type: 'video', src: 'Throttle body after printing.mp4', label: 'Throttle body — after printing' },
           text: 'EDIT ME: how it was made and the implications.',
           mediaSide: 'left'
+        },
+        {
+          type: 'media',
+          title: 'Throttle Body — Finished',
+          item: { type: 'image', src: 'throttle body finished.jpg', label: 'Throttle body — finished' }
         }
       ],
       links: []
@@ -1126,7 +1171,7 @@
       cover: 'design-project-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
       summary: 'A 3D reverse-engineering project — designing and manufacturing 50+ parts as a team of six.',
       description:
-        'A 3D reverse-engineering project. Working from a reference design, our team of six reverse-engineered and manufactured a full working model from the ground up.',
+        'A 3D reverse-engineering project. As a university group project, we were tasked with picking a variation of a toy from a manual that could be built from a set of mechanical pieces we were given — similar to Lego. We then used calipers to accurately measure and recreate every component, rebuilt the toy as a full assembly in SolidWorks, and finally created a simulation showing the toy exploding, rotating, and so on.',
       specs: [
         { k: 'Scope', v: 'Add scope' }, // EDIT ME
         { k: 'Role', v: 'Add your role' }, // EDIT ME
@@ -1181,11 +1226,12 @@
         },
         {
           type: 'media',
-          item: { type: 'image', src: '', label: 'The finished build (EDIT ME: add filename)' }
+          title: 'Final Assembly of Reverse Engineered Toy',
+          item: { type: 'image', src: 'Final assembaly of our toy picture.jpg', label: 'Final assembly of reverse engineered toy' }
         },
         {
           type: 'media',
-          item: { type: 'image', src: '', label: 'You and the team (EDIT ME: add filename)' }
+          item: { type: 'video', src: '', label: 'Video coming soon (EDIT ME: not uploaded yet)' }
         }
       ],
       links: []
@@ -1289,7 +1335,7 @@
 
     card.innerHTML = `
       <div class="proj-photo" style="background-image:url('${p.cover}');">
-        <span class="view-hint">View details</span>
+        <span class="view-hint">Click to view details</span>
       </div>
       <div class="proj-head">
         <div>
