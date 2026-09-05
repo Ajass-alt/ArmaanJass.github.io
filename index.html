@@ -1128,9 +1128,18 @@
       video: null,
       blocks: [
         {
-          type: 'mediaText',
+          type: 'media',
           title: 'Throttle Body — CAD File',
-          media: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' },
+          item: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' }
+        },
+        {
+          // EDIT ME: this file isn't showing up — PNG/JPG both work fine in general,
+          // so it's almost certainly a filename mismatch. GitHub truncated the real
+          // filename with "...." in your file list — paste me the exact full name
+          // (and its real extension) and I'll fix the src below.
+          type: 'mediaText',
+          title: 'Throttle Body — Half View',
+          media: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' },
           text:
             'Design Process: the design focused on recreating the diameter and geometry of the butterfly valve while matching the bolt-hole pattern required for our intake manifold — keeping the functionality of a mechanical throttle body while staying as close as possible to the shape and dimensions of our existing electrical one.\n\nBy keeping the same mounting points and overall envelope, we could quickly install or remove the mechanical throttle body without needing significant changes to the intake system.\n\nWe also had to consider whether the 3D-printed material would hold up in an environment surrounded by constant heat — we expected excessive temperatures could cause it to warp. Since the air intake operates below the material\u2019s warping temperature, though, 3D printing turned out to be a suitable option.\n\nAs an added safety measure, the design was reviewed by multiple senior leads on the team to confirm the material and design were appropriate. The throttle body successfully passed tech inspection at FSAE.',
           mediaSide: 'left'
@@ -1140,12 +1149,6 @@
           fullWidth: true,
           text:
             'Originally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
-        },
-        {
-          // EDIT ME: double-check this filename — it was cut off in the GitHub file list
-          type: 'media',
-          title: 'Throttle Body — Half View',
-          item: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' }
         },
         {
           type: 'mediaText',
@@ -1181,7 +1184,7 @@
       num: 'PRJ—003',
       name: 'Engineering Design Project',
       tag: 'University Project · Design',
-      cover: 'design-project-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
+      cover: 'Final assembaly of our toy picture.jpg',
       summary: 'A 3D reverse-engineering project — designing and manufacturing 50+ parts as a team of six.',
       description:
         'A 3D reverse-engineering project. As a university group project, we were tasked with picking a variation of a toy from a manual that could be built from a set of mechanical pieces we were given — similar to Lego. We then used calipers to accurately measure and recreate every component, rebuilt the toy as a full assembly in SolidWorks, and finally created a simulation showing the toy exploding, rotating, and so on.',
@@ -1317,19 +1320,20 @@
             'These two photos show a controller I installed that connects to solenoids across a commercial site. Each valve box holds multiple solenoids for different sprinkler zones, and every two sprinklers typically share one wire spliced back to a common line, all routed back to the controller shown here. The left photo shows the wiring before I got to it; the right shows it after I identified and labeled each wire by solenoid and tidied everything up, so the next person can immediately see what connects where.'
         },
         {
-          type: 'pair',
+          type: 'mediaTextPair',
           items: [
-            { type: 'video', src: 'trench and new hydraulic system video.mp4', label: 'Trenching + new hydraulic system' },
-            { type: 'image', src: 'final piping system dripline.jpg', label: 'Finished drip line' }
+            {
+              media: { type: 'video', src: 'trench and new hydraulic system video.mp4', label: 'Trenching + new hydraulic system' },
+              text: 'Excavating and laying new pipe in the ground.'
+            },
+            {
+              media: { type: 'image', src: 'final piping system dripline.jpg', label: 'Finished drip line' },
+              text: 'What a finished drip line looks like outside a home.'
+            }
           ]
         },
         {
           type: 'textPanel',
-          fullWidth: true,
-          text: 'Left: excavating and laying new pipe in the ground. Right: what a finished drip line looks like outside a home.'
-        },
-        {
-          type: 'text',
           fullWidth: true,
           title: 'Looking back',
           text:
