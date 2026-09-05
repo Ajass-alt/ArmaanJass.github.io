@@ -452,6 +452,7 @@
   .block{margin-bottom:46px;}
   .block-title{font-family:var(--display); font-weight:600; font-size:19px; color:var(--text); margin-bottom:16px;}
   .block-text p{color:var(--text-muted); font-size:15.5px; max-width:70ch; white-space:pre-line;}
+  .block-text.is-full-width p{max-width:none;}
   .block-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
   .block-media-text{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;}
   .block-grid{display:flex; flex-wrap:wrap; gap:16px;}
@@ -497,6 +498,12 @@
   }
   .text-panel-centered .block-title{text-align:center;}
   .text-panel-centered p{color:var(--text-muted); font-size:15px; white-space:pre-line; text-align:left;}
+  .text-panel-full{
+    width:100%;
+    background:rgba(17,23,28,0.55); border:1px solid var(--border-soft);
+    border-radius:12px; padding:28px 32px;
+  }
+  .text-panel-full p{color:var(--text-muted); font-size:15px; white-space:pre-line;}
   .triptych-row{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
   .triptych-center{max-width:360px; margin:0 auto;}
   @media (max-width:600px){ .triptych-row{grid-template-columns:1fr;} }
@@ -990,10 +997,10 @@
       summary: 'A custom-built autonomous drone designed as a modular platform for future tool payloads.',
       description: 'A custom-built autonomous drone designed as a modular platform for future tool payloads.',
       specs: [
-        { k: 'Frame', v: '480mm, carbon fiber' },
+        { k: 'Material', v: 'PA6 / Carbon Fiber' },
         { k: 'MTOW', v: '2.1 kg' },
-        { k: 'Payload', v: '600 g' },
-        { k: 'Tools', v: 'SolidWorks, ANSYS' }
+        { k: 'CAD Hours Logged', v: '10+ hours' },
+        { k: 'Tools', v: 'Fusion 360, QGroundControl, Mission Planner' }
       ],
       gallery: [],
       video: null,
@@ -1008,34 +1015,19 @@
         },
         {
           type: 'text',
+          fullWidth: true,
           text:
             'The main goal behind this project was to build an autonomous, self-swappable, multi-tool drone controlled through an app or controller. The idea was for the drone to take on different jobs depending on the tool payload attached — drilling holes, planting trees, or running in a surveillance mode while camping, for example mapping an area and identifying fire-safe routes. The potential applications are broad, and we\u2019re seeing more autonomous systems built for similar purposes every day. We weren\u2019t the first to have this idea, but we believed in its potential impact enough to keep developing it.\n\nDuring the summer of 2026, a three-person team began building this drone from scratch. My contributions focused on CAD design, manufacturing, machining, and simulation troubleshooting. Below are the videos, photos, and write-ups documenting the development process from my perspective.'
         },
         {
-          type: 'pair',
-          title: '3D Printing',
-          items: [
-            { type: 'video', src: '3d printing lapse video left.mp4', label: '3D Printing — Left' },
-            { type: 'video', src: '3d printing lapse video right.mp4', label: '3D Printing — Right' }
-          ]
-        },
-        {
-          type: 'text',
-          text:
-            'Left: Originally, the drone\u2019s components were printed in PLA. After our first test, disassembling the middle frame caused warping around the joints and small cracks forming around the heat-set inserts. We reprinted the components in PA6-CF (carbon-fibre-reinforced nylon) instead, which cut the printed frame\u2019s weight by roughly 8% compared to PLA while improving stiffness and heat resistance — resolving the warping and cracking we\u2019d seen in testing.\n\nRight: The motor mounts were designed to match the bolt pattern and geometry of the T-Motor 2812 motors, letting them sit securely, stay parallel to the ground, and remain properly aligned with the airframe.'
-        },
-        {
-          type: 'pair',
+          type: 'stackPair',
           title: 'MARK ONE Motor Mounts',
-          items: [
-            { type: 'video', src: 'old motor mounts cad file video.mp4', label: 'CAD file — old motor mount' },
-            { type: 'video', src: 'Old motor mounts video.mp4', label: 'Old motor mounts' }
-          ]
-        },
-        {
-          type: 'text',
-          text:
-            'After the first motor mount design, screwing the motors in from underneath was tight and time-consuming — there just wasn\u2019t enough clearance to work with. We redesigned the mount to open up more room to reach those screws.\n\nWe were also seeing repeated stress cracks in testing with the original mounts. Tolerances were tight, but any flex let the propellers clip the mounts themselves, so we reduced the mount height and opened up more clearance around the screws — mainly a fix for accessibility and durability.\n\nWe also switched the print material from PLA to PA6, which is significantly stronger and let us cut roughly 8% of the weight anywhere PLA had previously been used.'
+          left: {
+            media: { type: 'video', src: 'old motor mounts cad file video.mp4', label: 'CAD file — old motor mount' },
+            text:
+              'After the first motor mount design, screwing the motors in from underneath was tight and time-consuming — there just wasn\u2019t enough clearance to work with. We redesigned the mount to open up more room to reach those screws.\n\nWe were also seeing repeated stress cracks in testing with the original mounts. Tolerances were tight, but any flex let the propellers clip the mounts themselves, so we reduced the mount height and opened up more clearance around the screws — mainly a fix for accessibility and durability.\n\nWe also switched the print material from PLA to PA6, which is significantly stronger and let us cut roughly 8% of the weight anywhere PLA had previously been used.'
+          },
+          right: { type: 'video', src: 'Old motor mounts video.mp4', label: 'Old motor mounts' }
         },
         {
           type: 'pair',
@@ -1080,8 +1072,23 @@
         },
         {
           type: 'text',
+          fullWidth: true,
           text:
             'The graph on the left shows all four motors — each a different coloured signal — receiving different amounts of voltage, which resulted in different motor speeds. Based on this, instead of buying differently KV-rated motors as we\u2019d originally considered, we determined the issue could be solved by increasing battery voltage. We upgraded from a 4S to a 6S LiPo battery and reran the simulation, shown on the right — the response curves came back synchronized, confirming the higher-voltage battery resolved the mismatch.'
+        },
+        {
+          type: 'mediaTextPair',
+          title: '3D Printing',
+          items: [
+            {
+              media: { type: 'video', src: '3d printing lapse video left.mp4', label: '3D Printing — Left' },
+              text: 'Originally, the drone\u2019s components were printed in PLA. After our first test, disassembling the middle frame caused warping around the joints and small cracks forming around the heat-set inserts. We reprinted the components in PA6-CF (carbon-fibre-reinforced nylon) instead, which cut the printed frame\u2019s weight by roughly 8% compared to PLA while improving stiffness and heat resistance — resolving the warping and cracking we\u2019d seen in testing.'
+            },
+            {
+              media: { type: 'video', src: '3d printing lapse video right.mp4', label: '3D Printing — Right' },
+              text: 'The motor mounts were designed to match the bolt pattern and geometry of the T-Motor 2812 motors, letting them sit securely, stay parallel to the ground, and remain properly aligned with the airframe.'
+            }
+          ]
         },
         {
           type: 'pair',
@@ -1092,7 +1099,8 @@
           ]
         },
         {
-          type: 'text',
+          type: 'textPanel',
+          fullWidth: true,
           text:
             'MARK II flies on full GPS. EDIT ME: colleague\u2019s name handled the simulation testing, so it\u2019s capable of autonomous flight, though so far I\u2019ve only run controller testing myself.\n\nAfter all these adjustments, the drone finally lifted off — this is the first successful flight, recorded above. The weight reduction from switching to PA6 came out to more than 8%, and the 6S battery finally gave every motor enough voltage to spin in sync, which was enough to get it off the ground.\n\nPassing this flight test and starting to build what I hope becomes a larger system taught me a lot about troubleshooting — through simulation, testing, and plain trial and error. More than anything, it taught me how to approach engineering problems from multiple angles: when we hit a failure, we learned from it and tried again, and when we weren\u2019t sure of the cause, we researched, explored different approaches, and tested multiple solutions rather than betting everything on one fix.'
         }
@@ -1119,33 +1127,23 @@
       video: null,
       blocks: [
         {
-          type: 'text',
-          text:
-            'I joined Gryphons Racing in 2024 mainly to meet other creative engineers and get more opportunities to learn and develop my engineering skills. Recently, I worked with a teammate to source a mechanical throttle body online and recreate it through reverse engineering in SolidWorks, modifying the design to fit our specified intake manifold.\n\nOriginally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
-        },
-        {
-          type: 'mediaText',
-          title: 'Simulation',
-          media: { type: 'image', src: '', label: 'STAR-CCM+ airfoil simulation screenshot (EDIT ME: add filename)' },
-          text: 'EDIT ME: describe the STAR-CCM+ airfoil simulation work — what you were simulating, the steps you took, and what the results showed.',
-          mediaSide: 'left'
-        },
-        {
-          type: 'media',
-          title: 'Throttle Body — CAD File',
-          item: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' }
-        },
-        {
-          type: 'text',
-          title: 'Design Process',
-          text:
-            'The design process focused on recreating the diameter and geometry of the butterfly valve while matching the bolt-hole pattern required for our intake manifold — keeping the functionality of a mechanical throttle body while staying as close as possible to the shape and dimensions of our existing electrical one.\n\nBy keeping the same mounting points and overall envelope, we could quickly install or remove the mechanical throttle body without needing significant changes to the intake system.\n\nWe also had to consider whether the 3D-printed material would hold up in an environment surrounded by constant heat — we expected excessive temperatures could cause it to warp. Since the air intake operates below the material\u2019s warping temperature, though, 3D printing turned out to be a suitable option.\n\nAs an added safety measure, the design was reviewed by multiple senior leads on the team to confirm the material and design were appropriate. The throttle body successfully passed tech inspection at FSAE.'
-        },
-        {
           // EDIT ME: double-check this filename — it was cut off in the GitHub file list
           type: 'media',
           title: 'Throttle Body — Half View',
           item: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' }
+        },
+        {
+          type: 'text',
+          text:
+            'Originally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
+        },
+        {
+          type: 'mediaText',
+          title: 'Throttle Body — CAD File',
+          media: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' },
+          text:
+            'Design Process: the design focused on recreating the diameter and geometry of the butterfly valve while matching the bolt-hole pattern required for our intake manifold — keeping the functionality of a mechanical throttle body while staying as close as possible to the shape and dimensions of our existing electrical one.\n\nBy keeping the same mounting points and overall envelope, we could quickly install or remove the mechanical throttle body without needing significant changes to the intake system.\n\nWe also had to consider whether the 3D-printed material would hold up in an environment surrounded by constant heat — we expected excessive temperatures could cause it to warp. Since the air intake operates below the material\u2019s warping temperature, though, 3D printing turned out to be a suitable option.\n\nAs an added safety measure, the design was reviewed by multiple senior leads on the team to confirm the material and design were appropriate. The throttle body successfully passed tech inspection at FSAE.',
+          mediaSide: 'left'
         },
         {
           type: 'mediaText',
@@ -1158,6 +1156,18 @@
           type: 'media',
           title: 'Throttle Body — Finished',
           item: { type: 'image', src: 'throttle body finished.jpg', label: 'Throttle body — finished' }
+        },
+        {
+          type: 'textPanel',
+          fullWidth: true,
+          text: 'EDIT ME: closing thoughts on the throttle body project — what you took away from it.'
+        },
+        {
+          type: 'mediaText',
+          title: 'Simulation',
+          media: { type: 'image', src: '', label: 'STAR-CCM+ airfoil simulation screenshot (EDIT ME: add filename)' },
+          text: 'EDIT ME: describe the STAR-CCM+ airfoil simulation work — what you were simulating, the steps you took, and what the results showed.',
+          mediaSide: 'left'
         }
       ],
       links: []
@@ -1167,16 +1177,16 @@
       category: 'project',
       num: 'PRJ—003',
       name: 'Engineering Design Project',
-      tag: 'Capstone · Design',
+      tag: 'University Project · Design',
       cover: 'design-project-cover.jpg', // EDIT ME: upload a cover photo with this name, or change the filename
       summary: 'A 3D reverse-engineering project — designing and manufacturing 50+ parts as a team of six.',
       description:
         'A 3D reverse-engineering project. As a university group project, we were tasked with picking a variation of a toy from a manual that could be built from a set of mechanical pieces we were given — similar to Lego. We then used calipers to accurately measure and recreate every component, rebuilt the toy as a full assembly in SolidWorks, and finally created a simulation showing the toy exploding, rotating, and so on.',
       specs: [
-        { k: 'Scope', v: 'Add scope' }, // EDIT ME
-        { k: 'Role', v: 'Add your role' }, // EDIT ME
-        { k: 'Timeline', v: 'Add duration' }, // EDIT ME
-        { k: 'Tools', v: 'Add your tools' } // EDIT ME
+        { k: 'Scope', v: '3D reverse-engineering, 50+ parts' },
+        { k: 'Role', v: 'Designer / Project Organizer' },
+        { k: 'Timeline', v: '2.5 months' },
+        { k: 'Tools', v: 'SolidWorks, Calipers, Microsoft 365' }
       ],
       gallery: [],
       video: null,
@@ -1186,14 +1196,15 @@
           item: { type: 'video', src: '', label: 'The finished build — video (EDIT ME: add your video filename)' }
         },
         {
-          type: 'textPanel',
-          text:
-            'Our group of six was split up so each person was responsible for six required parts. I ended up designing 13 parts in total, including the most advanced components, which I also converted into formal 2D engineering drawings — I completed 3 of these and scored higher than 90% on them.\n\nThe full project ran more than two and a half months and produced over 50 parts in total, and the final build performed well overall.'
-        },
-        {
           type: 'media',
           title: 'Solar Roof',
           item: { type: 'video', src: 'Solar roof video.mp4', label: 'Solar roof' }
+        },
+        {
+          type: 'textPanel',
+          fullWidth: true,
+          text:
+            'Our group of six was split up so each person was responsible for six required parts. I ended up designing 13 parts in total, including the most advanced components, which I also converted into formal 2D engineering drawings — I completed 3 of these and scored higher than 90% on them.\n\nThe full project ran more than two and a half months and produced over 50 parts in total, and the final build performed well overall.'
         },
         {
           type: 'media',
@@ -1225,9 +1236,19 @@
           item: { type: 'video', src: 'Wheels together video.mp4', label: 'Wheels together' }
         },
         {
+          type: 'textPanel',
+          fullWidth: true,
+          text: 'EDIT ME: notes on assembling the wheels — how the tolerances held up, any fit issues, and how it came together as a full unit.'
+        },
+        {
           type: 'media',
           title: 'Final Assembly of Reverse Engineered Toy',
           item: { type: 'image', src: 'Final assembaly of our toy picture.jpg', label: 'Final assembly of reverse engineered toy' }
+        },
+        {
+          type: 'textPanel',
+          fullWidth: true,
+          text: 'EDIT ME: closing notes on the finished assembly — how the tolerances turned out, what the 2D drawings were graded on, and how the whole build came together.'
         },
         {
           type: 'media',
@@ -1433,15 +1454,18 @@
       const caption = b.caption ? `<p class="block-caption">${escapeHtml(b.caption)}</p>` : '';
 
       if (b.type === 'text') {
-        return `<div class="block block-text">${titleHtml}<p>${escapeHtml(b.text)}</p></div>`;
+        const cls = 'block block-text' + (b.fullWidth ? ' is-full-width' : '');
+        return `<div class="${cls}">${titleHtml}<p>${escapeHtml(b.text)}</p></div>`;
       }
       // A single full-width photo or video (e.g. one big demo video, or one final "finished shot").
       if (b.type === 'media') {
         return `<div class="block">${titleHtml}<div class="block-media-full">${renderItem(b.item)}</div>${caption}</div>`;
       }
-      // A centered write-up box, narrower than full width, for a stats/summary style callout.
+      // A write-up box. By default a narrower centered callout; set fullWidth:true
+      // to have it span the whole page instead.
       if (b.type === 'textPanel') {
-        return `<div class="block"><div class="text-panel-centered">${titleHtml}<p>${escapeHtml(b.text)}</p></div></div>`;
+        const cls = b.fullWidth ? 'text-panel-full' : 'text-panel-centered';
+        return `<div class="block"><div class="${cls}">${titleHtml}<p>${escapeHtml(b.text)}</p></div></div>`;
       }
       if (b.type === 'pair') {
         const widgets = b.items.map(renderItem).join('');
@@ -1452,6 +1476,12 @@
         const textHtml = `<div class="block-text-panel"><p>${escapeHtml(b.text)}</p></div>`;
         const parts = b.mediaSide === 'right' ? [textHtml, mediaHtml] : [mediaHtml, textHtml];
         return `<div class="block">${titleHtml}<div class="block-media-text">${parts.join('')}</div></div>`;
+      }
+      // Two columns, each: a photo/video on top with its own widget write-up stacked
+      // directly underneath it — e.g. two videos side by side, each with its own caption.
+      if (b.type === 'mediaTextPair') {
+        const cols = b.items.map((it) => `<div class="stack-col">${renderItem(it.media)}<div class="block-text-panel" style="margin-top:14px;"><p>${escapeHtml(it.text)}</p></div></div>`).join('');
+        return `<div class="block">${titleHtml}<div class="block-stack-pair">${cols}</div></div>`;
       }
       // Left column: a photo with its own write-up stacked directly underneath it.
       // Right column: one media item (e.g. a video) spanning the full height beside it.
