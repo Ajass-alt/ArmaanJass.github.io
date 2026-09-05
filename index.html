@@ -682,8 +682,9 @@
         <div class="stat-list">
           <div class="stat-row"><span class="k">CAD hours logged</span><span class="v">300+</span></div>
           <div class="stat-row"><span class="k">Current year</span><span class="v">3rd yr, Mech Eng</span></div>
-          <div class="stat-row"><span class="k">Projects completed</span><span class="v">7</span></div>
-          <div class="stat-row"><span class="k">Currently exploring</span><span class="v">Autonomous flight control</span></div>
+          <div class="stat-row"><span class="k">Projects completed</span><span class="v">3</span></div>
+          <div class="stat-row"><span class="k">Currently exploring</span><span class="v">Autonomous drones</span></div>
+          <div class="stat-row"><span class="k">Timeline of degree</span><span class="v">2024–2029</span></div>
         </div>
       </div>
     </div>
@@ -1102,7 +1103,7 @@
           type: 'textPanel',
           fullWidth: true,
           text:
-            'MARK II flies on full GPS. EDIT ME: colleague\u2019s name handled the simulation testing, so it\u2019s capable of autonomous flight, though so far I\u2019ve only run controller testing myself.\n\nAfter all these adjustments, the drone finally lifted off — this is the first successful flight, recorded above. The weight reduction from switching to PA6 came out to more than 8%, and the 6S battery finally gave every motor enough voltage to spin in sync, which was enough to get it off the ground.\n\nPassing this flight test and starting to build what I hope becomes a larger system taught me a lot about troubleshooting — through simulation, testing, and plain trial and error. More than anything, it taught me how to approach engineering problems from multiple angles: when we hit a failure, we learned from it and tried again, and when we weren\u2019t sure of the cause, we researched, explored different approaches, and tested multiple solutions rather than betting everything on one fix.'
+            'MARK II flies on full GPS. Jaskaran Pabla and Iknoor Braich handled the simulation testing, so it\u2019s capable of autonomous flight, though so far I\u2019ve only run controller testing myself.\n\nAfter all these adjustments, the drone finally lifted off — this is the first successful flight, recorded above. The weight reduction from switching to PA6 came out to more than 8%, and the 6S battery finally gave every motor enough voltage to spin in sync, which was enough to get it off the ground.\n\nPassing this flight test and starting to build what I hope becomes a larger system taught me a lot about troubleshooting — through simulation, testing, and plain trial and error. More than anything, it taught me how to approach engineering problems from multiple angles: when we hit a failure, we learned from it and tried again, and when we weren\u2019t sure of the cause, we researched, explored different approaches, and tested multiple solutions rather than betting everything on one fix.'
         }
       ],
       links: []
@@ -1127,17 +1128,6 @@
       video: null,
       blocks: [
         {
-          // EDIT ME: double-check this filename — it was cut off in the GitHub file list
-          type: 'media',
-          title: 'Throttle Body — Half View',
-          item: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' }
-        },
-        {
-          type: 'text',
-          text:
-            'Originally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
-        },
-        {
           type: 'mediaText',
           title: 'Throttle Body — CAD File',
           media: { type: 'video', src: 'Throttle body cad file vid.mp4', label: 'Throttle body — CAD file' },
@@ -1146,10 +1136,23 @@
           mediaSide: 'left'
         },
         {
+          type: 'textPanel',
+          fullWidth: true,
+          text:
+            'Originally, the project was meant to be a prototype we\u2019d keep as a backup for future use. After we ran into multiple electrical failures, though, the mechanical throttle body became an important backup in case our electrical throttle body failed or couldn\u2019t pass tech inspection at FSAE. After 3D printing, assembling, and testing the components, we had a fully functional mechanical throttle body.'
+        },
+        {
+          // EDIT ME: double-check this filename — it was cut off in the GitHub file list
+          type: 'media',
+          title: 'Throttle Body — Half View',
+          item: { type: 'image', src: 'half view of cad throttle body with intake filter....jpg', label: 'Half view — CAD throttle body with intake filter' }
+        },
+        {
           type: 'mediaText',
           title: 'Throttle Body — After Printing',
           media: { type: 'video', src: 'Throttle body after printing.mp4', label: 'Throttle body — after printing' },
-          text: 'EDIT ME: how it was made and the implications.',
+          text:
+            'A throttle body controls how much air reaches the engine\u2019s intake, which directly affects how much power the engine can produce at any given moment. Ours is a mechanical, cable-actuated design — pressing the pedal pulls a cable that opens a butterfly valve inside the throttle body, letting in more air. Since it doesn\u2019t rely on any electronics, it makes for a simple, reliable backup for whenever our primary electric throttle body isn\u2019t available.',
           mediaSide: 'left'
         },
         {
@@ -1277,11 +1280,13 @@
       blocks: [
         {
           type: 'text',
+          fullWidth: true,
           title: 'Co-op',
           text: 'EDIT ME: add how long you worked here (it was a co-op), what you learned overall, and how troubleshooting was the main focus of the role.'
         },
         {
           type: 'text',
+          fullWidth: true,
           title: 'On the Job',
           text: 'EDIT ME: add what you picked up about being a technician day to day \u2014 the kind of problems you\u2019d walk into and how you worked through them.'
         },
@@ -1294,6 +1299,7 @@
         },
         {
           type: 'text',
+          fullWidth: true,
           title: 'Troubleshooting',
           text: 'Troubleshooting and general fixes \u2014 hands-on repair work across the system.'
         },
@@ -1302,8 +1308,12 @@
           items: [
             { type: 'image', src: 'messy wires.jpg', label: 'Before', caption: 'Before' },
             { type: 'image', src: 'tidy and clean wires.jpg', label: 'After', caption: 'After' }
-          ],
-          caption:
+          ]
+        },
+        {
+          type: 'textPanel',
+          fullWidth: true,
+          text:
             'These two photos show a controller I installed that connects to solenoids across a commercial site. Each valve box holds multiple solenoids for different sprinkler zones, and every two sprinklers typically share one wire spliced back to a common line, all routed back to the controller shown here. The left photo shows the wiring before I got to it; the right shows it after I identified and labeled each wire by solenoid and tidied everything up, so the next person can immediately see what connects where.'
         },
         {
@@ -1311,11 +1321,16 @@
           items: [
             { type: 'video', src: 'trench and new hydraulic system video.mp4', label: 'Trenching + new hydraulic system' },
             { type: 'image', src: 'final piping system dripline.jpg', label: 'Finished drip line' }
-          ],
-          caption: 'Left: excavating and laying new pipe in the ground. Right: what a finished drip line looks like outside a home.'
+          ]
+        },
+        {
+          type: 'textPanel',
+          fullWidth: true,
+          text: 'Left: excavating and laying new pipe in the ground. Right: what a finished drip line looks like outside a home.'
         },
         {
           type: 'text',
+          fullWidth: true,
           title: 'Looking back',
           text:
             'Over the course of the co-op, I also handled multiple full installs. The video above shows me digging a trench to run a new piping system for a lawn sprinkler setup. Since a gas line ran directly under part of the planned trench route, we couldn\u2019t use vibrating equipment there \u2014 so we had to reroute around it and make careful, deliberate calls about where and how to dig. Once the trench was in, we placed the wire and ran it back to the controller.\n\nThe real lesson here wasn\u2019t complicated, but it was realistic: troubleshooting, installing around obstacles like gas lines and property constraints, and treating cost \u2014 less pipe, less wire, less time \u2014 as a genuine design constraint. That trade-off thinking is a big part of what real engineering work looks like day to day.\n\nThe drip line photo above also ties into a bit of quick math \u2014 figuring out gallons per minute based on the water pressure available, which depends heavily on the source (a well, a cistern, or straight off the municipal line, since each delivers very different pressure). The piping type matters too: drip line has much lower flow than a standard sprinkler head, so a zone running on drip line might need to run for around 10 minutes, two to three times a day, instead of one longer cycle.'
