@@ -115,6 +115,11 @@
     background:rgba(11,15,18,0.82);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border-soft);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+  }
+  nav.nav-hidden{
+    opacity:0; pointer-events:none; transform:translateY(-100%);
+    position:fixed; width:100%;
   }
   nav .wrap{
     display:flex; align-items:center; justify-content:space-between;
@@ -177,6 +182,29 @@
   .hero-desc strong{color:var(--text); font-weight:600;}
 
   .hero-actions{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .scroll-hint{
+    display:inline-flex; align-items:center; gap:8px; margin-top:56px;
+    font-family:var(--sans); font-size:13px; font-weight:600; color:var(--text-dim);
+    text-decoration:none; transition:color 0.15s ease;
+  }
+  .scroll-hint:hover{color:var(--accent);}
+  .scroll-hint svg{animation:bounce 1.8s ease-in-out infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);} 50%{transform:translateY(4px);}}
+  header.hero{min-height:calc(100vh - 68px); display:flex; flex-direction:column; justify-content:center;}
+  #resume-mini{padding:80px 0 40px; scroll-margin-top:24px;}
+
+  /* ---------- FULL-SCREEN SITE PAGES (About / Projects / Work / Contact) ---------- */
+  .site-page{
+    position:fixed; inset:0; z-index:150; overflow-y:auto;
+    background:var(--bg);
+    opacity:0; visibility:hidden; transform:translateY(14px);
+    transition:opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
+  }
+  .site-page.open{
+    opacity:1; visibility:visible; transform:translateY(0);
+    transition:opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0s;
+  }
+  .site-page-inner{padding:110px 32px 100px;}
   .btn{
     font-family:var(--sans); font-size:14.5px; font-weight:600;
     padding:12px 20px; border-radius:7px; text-decoration:none;
@@ -556,15 +584,14 @@
   <div class="bg-scrim"></div>
 </div>
 
-<nav>
+<nav id="siteNav" class="nav-hidden">
   <div class="wrap">
-    <!-- EDIT ME: this was mismatched with the hero name before — now fixed -->
     <a href="#" class="nav-mark"><span class="dot"></span>Armaan Jass</a>
     <ul class="nav-links">
+      <li><a href="#">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#experience">Work</a></li>
-      <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
       <!-- EDIT ME: point this at your actual resume file once it's in the project folder -->
       <li><a href="resume.pdf" class="btn-resume" download>Resume</a></li>
@@ -585,9 +612,27 @@
       <a href="#about" class="btn btn-ghost">About</a>
       <a href="#experience" class="btn btn-ghost">Work Experience</a>
     </div>
+
+    <a href="#resume-mini" class="scroll-hint">
+      <span>Scroll down for resume</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </a>
   </header>
 
-  <section id="about">
+  <section id="resume-mini">
+    <div class="resume-preview">
+      <div class="resume-frame">
+        <span class="placeholder-note">Resume preview (EDIT ME: add a preview image filename, or leave blank)</span>
+      </div>
+      <div class="resume-actions">
+        <a href="resume.pdf" class="btn btn-primary" download>Download PDF</a>
+        <a href="resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Open in new tab</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="site-page" data-bg="final concept of drone new motor mounts.jpg">
+   <div class="wrap site-page-inner">
     <div class="page-header">
       <h2>About</h2>
     </div>
@@ -666,9 +711,11 @@
         </div>
       </div>
     </div>
+   </div>
   </section>
 
-  <section id="projects" data-bg="final piping system dripline.jpg">
+  <section id="projects" class="site-page" data-bg="final piping system dripline.jpg">
+   <div class="wrap site-page-inner">
     <div class="page-header">
       <h2>Projects</h2>
       <div class="page-subtitle">Mechanical and autonomous projects</div>
@@ -681,19 +728,8 @@
          photo as the background — see PROJECTS below to edit names, photos,
          galleries, video, specs. -->
     <div class="proj-list" id="projList"></div>
-  </section>
 
-  <section id="experience">
-    <div class="page-header">
-      <h2>Work Experience</h2>
-    </div>
-
-    <!-- Same PROJECTS array, filtered to category: 'experience'. -->
-    <div class="proj-list" id="workList"></div>
-  </section>
-
-  <section id="skills">
-    <div class="dim-divider">
+    <div class="dim-divider" style="padding-top:64px;">
       <span class="dim-label">Tools &amp; systems</span>
       <span class="rule"></span>
     </div>
@@ -736,9 +772,22 @@
         </ul>
       </div>
     </div>
+   </div>
   </section>
 
-  <footer id="contact">
+  <section id="experience" class="site-page" data-bg="final concept of drone new motor mounts.jpg">
+   <div class="wrap site-page-inner">
+    <div class="page-header">
+      <h2>Work Experience</h2>
+    </div>
+
+    <!-- Same PROJECTS array, filtered to category: 'experience'. -->
+    <div class="proj-list" id="workList"></div>
+   </div>
+  </section>
+
+  <footer id="contact" class="site-page" data-bg="final concept of drone new motor mounts.jpg">
+   <div class="wrap site-page-inner">
     <div class="page-header">
       <h2>Contact</h2>
     </div>
@@ -791,6 +840,7 @@
       <span>© 2026 Armaan Jass</span>
       <span>Drawn digitally. No scale.</span>
     </div>
+   </div>
   </footer>
 
 </div>
@@ -824,42 +874,24 @@
 
 <script>
   // ===========================================================================
-  // Scrolling background crossfade
-  // Each <section> / <header> / <footer> above has a data-bg attribute.
-  // As a new one enters the middle of the viewport, we fade the background
-  // stage over to that image. If an image fails to load (e.g. you haven't
-  // added it yet), the gradient background on .bg-stage still shows through,
-  // so nothing looks broken while you're filling in real photos.
+  // Background crossfade — two stacked layers swap opacity for a smooth
+  // transition. Which image shows is now decided by the page router below
+  // (each page section can carry its own data-bg attribute).
   // ===========================================================================
-  (function () {
-    const layers = [document.getElementById('bgLayerA'), document.getElementById('bgLayerB')];
-    let activeIndex = 0;
-    let currentSrc = null;
+  const bgLayers = [document.getElementById('bgLayerA'), document.getElementById('bgLayerB')];
+  let bgActiveIndex = 0;
+  let bgCurrentSrc = null;
 
-    function setBackground(url) {
-      if (!url || url === currentSrc) return;
-      currentSrc = url;
-      const incoming = layers[1 - activeIndex];
-      const outgoing = layers[activeIndex];
-      incoming.style.backgroundImage = `url('${url}')`;
-      incoming.classList.add('active');
-      outgoing.classList.remove('active');
-      activeIndex = 1 - activeIndex;
-    }
-
-    const sections = document.querySelectorAll('[data-bg]');
-    if ('IntersectionObserver' in window && sections.length) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setBackground(entry.target.getAttribute('data-bg'));
-          }
-        });
-      }, { threshold: 0.35 });
-
-      sections.forEach((el) => observer.observe(el));
-    }
-  })();
+  function setBackground(url) {
+    if (!url || url === bgCurrentSrc) return;
+    bgCurrentSrc = url;
+    const incoming = bgLayers[1 - bgActiveIndex];
+    const outgoing = bgLayers[bgActiveIndex];
+    incoming.style.backgroundImage = `url('${url}')`;
+    incoming.classList.add('active');
+    outgoing.classList.remove('active');
+    bgActiveIndex = 1 - bgActiveIndex;
+  }
 
   // ===========================================================================
   // Parallax: the background drifts slightly slower than the page scrolls,
@@ -1520,28 +1552,76 @@
     overlay.style.width = rect.width + 'px';
     overlay.style.height = rect.height + 'px';
     overlay.style.borderRadius = '12px';
-    document.body.style.overflow = '';
-    const idToHide = currentProjectId;
     currentProjectId = null;
     setTimeout(() => {
       if (!currentProjectId) overlay.style.visibility = 'hidden';
     }, 560);
   }
 
-  function syncFromHash() {
+  // ---------------------------------------------------------------------
+  // Site-wide page router. The site has one "home" view (hero + resume
+  // mini-section, always in normal scroll flow) and four full-screen
+  // pages (About / Projects / Work Experience / Contact) that are hidden
+  // until their hash is active. Project detail overlays nest inside
+  // whichever page they belong to (Projects or Experience).
+  // ---------------------------------------------------------------------
+  const PAGE_IDS = ['about', 'projects', 'experience', 'contact'];
+  const siteNav = document.getElementById('siteNav');
+  const heroEl = document.getElementById('hero');
+  let currentPageId = null;
+
+  function pageForProjectId(id) {
+    const p = PROJECTS.find((x) => x.id === id);
+    if (!p) return null;
+    return p.category === 'experience' ? 'experience' : 'projects';
+  }
+
+  function showPage(pageId) {
+    currentPageId = pageId;
+    PAGE_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle('open', id === pageId);
+      if (id === pageId) el.scrollTop = 0;
+    });
+    document.body.style.overflow = pageId ? 'hidden' : '';
+    if (siteNav) siteNav.classList.toggle('nav-hidden', !pageId);
+
+    const activeEl = pageId ? document.getElementById(pageId) : heroEl;
+    const bg = activeEl && activeEl.getAttribute('data-bg');
+    if (bg) setBackground(bg);
+  }
+
+  function closeToParentPage() {
+    if (!currentProjectId) return;
+    const pageId = pageForProjectId(currentProjectId);
+    location.hash = pageId || '';
+  }
+
+  function syncRoute() {
     const hash = location.hash.replace('#', '');
+
     if (hash.startsWith('project-')) {
       const id = hash.replace('project-', '');
+      const pageId = pageForProjectId(id);
+      if (pageId && pageId !== currentPageId) showPage(pageId);
       if (id !== currentProjectId) openProject(id);
-    } else if (currentProjectId) {
-      closeProject();
+      return;
+    }
+
+    if (currentProjectId) closeProject();
+
+    if (PAGE_IDS.includes(hash)) {
+      showPage(hash);
+    } else {
+      showPage(null); // home
     }
   }
 
-  overlayClose.addEventListener('click', () => { history.back(); });
-  window.addEventListener('hashchange', syncFromHash);
+  overlayClose.addEventListener('click', closeToParentPage);
+  window.addEventListener('hashchange', syncRoute);
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && currentProjectId) history.back();
+    if (e.key === 'Escape' && currentProjectId) closeToParentPage();
   });
   window.addEventListener('resize', () => {
     if (currentProjectId) {
@@ -1549,7 +1629,7 @@
       overlay.style.height = window.innerHeight + 'px';
     }
   });
-  syncFromHash();
+  syncRoute();
 </script>
 
 </body>
